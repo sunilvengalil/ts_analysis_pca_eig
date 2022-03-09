@@ -175,14 +175,25 @@ def verify_tsne(data, tsne):
     print(tsne_distance)
 
 
-def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_labels):
+def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_labels, log_axis = False):
     cdict = {1: 'red', 2: 'blue'}
+    plt.figure()
+    if log_axis:
+        xy = np.log(data)
+    else:
+        xy = data
     for g in np.unique(labels):
         ix = np.where(labels == g)
-        plt.scatter(data[ix, 0], data[ix, 1], c=cdict[g], label=legends[g - 1])
+        plt.scatter(xy[ix, 0], xy[ix, 1], c=cdict[g], label=legends[g - 1])
 
     plt.legend()
     plt.title(title)
-    plt.xlabel(axis_labels[0])
-    plt.ylabel(axis_labels[1])
+    xlabel = axis_labels[0]
+    ylabel = axis_labels[1]
+    if log_axis:
+        xlabel = f"Log({xlabel})"
+        ylabel = f"Log({ylabel})"
+
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
     plt.savefig(f"{out_folder}/{file_name}.jpg")

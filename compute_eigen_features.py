@@ -114,17 +114,20 @@ features = ["Max Eigen Ratio", "Variance of Eigen Ratio"]
 scatter_plot_2d(df[features].values, labels, pca_results_folder, "max_eig_ratio_variance",
                 title="Max Eigen Ratio and  Variance",
                 legends= distinct_labels,
-                axis_labels=features)
+                axis_labels=features,
+                log_axis=True)
 
 features = ["Max Eigen Ratio", "Normalized Area Under Eigen Ratio"]
 scatter_plot_2d(df[features].values, labels, pca_results_folder, "max_eig_ratio_area",
                 title="Max Eigen Ratio and  Area",
                 legends= distinct_labels,
-                axis_labels=features)
+                axis_labels=features,
+                log_axis=True)
 
 features = ["Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]
 scatter_plot_2d(df[features].values, labels, pca_results_folder, "variance_area",
                 title="Variance and  Area",
                 legends= distinct_labels,
-                axis_labels=features)
+                axis_labels=features,
+                log_axis=True)
 
