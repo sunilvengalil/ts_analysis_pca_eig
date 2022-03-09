@@ -6,7 +6,8 @@ import os
 import pandas as pd
 import argparse
 from matplotlib import pyplot as plt
-from utils import compute_svd, process_time_series_all, plot_eigen_ratio, area_per_unit_length
+from utils import compute_svd, process_time_series_all, plot_eigen_ratio, area_per_unit_length, verify_tsne, \
+    scatter_plot_2d
 from sklearn.manifold import TSNE
 
 MIN_EIGEN_VALUE = 10
@@ -77,28 +78,53 @@ for file_name in data_dict.keys():
     var_eig_ratio = statistics.variance([r[0] for r in results])
     normalized_area = area_per_unit_length(results, max_value)
 
+    key = file_name.rsplit(".",  1)[0]
+    if key.startswith("sac_ascf_"):
+        key = key.replace("sac_ascf_", "")
+
     # insert into dictionary for creating dataframe
-    values["File Name"].append(file_name)
+    values["Timeseries"].append(key.capitalize())
+    values["Ground Truth"].append(gt_dictionary[key.capitalize()])
     values["Max Eigen Ratio"].append(max_eig_ratio)
     values["Variance of Eigen Ratio"].append(var_eig_ratio)
     values["Normalized Area Under Eigen Ratio"].append(normalized_area)
-    key = file_name.rsplit(".",  1)[0]
-    print(key)
-    if key.startswith("sac_ascf_"):
-        key = key.replace("sac_ascf_", "")
-    print(key)
-    values["Ground Truth"].append(gt_dictionary[key.capitalize()])
-
 
 # df = pd.DataFrame(values, columns=["File Name", "Maximum Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio", "Area Under Eigen Ratio"])
 
 df = pd.DataFrame(values)
 df.to_csv(f"{pca_results_folder}/features.csv", index=False)
-tsne = TSNE().fit_transform(df[["Max Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]].values)
-print(tsne.shape)
+pca_features = df[["Max Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]].values
+tsne = TSNE(perplexity=4).fit_transform(pca_features)
+# verify_tsne(pca_features, tsne)
+distinct_labels = ["NON-STOCHASTIC", "STOCHASTIC"]
+labels = [1] * len(files)
+for i, gt in enumerate(df["Ground Truth"].values):
+    if gt == "STOCHASTIC":
+        labels[i] = 2
 
-plt.scatter(tsne[:, 0], tsne[:, 1])
-plt.title("Tsne: Max Eigen Ratio, Variance and Area Under ER Curve")
-plt.xlabel("Tsne Axis 1")
-plt.ylabel("Tsne Axis 2")
-plt.savefig(f"{pca_results_folder}/tsne.jpg")
+scatter_plot_2d(tsne,
+                labels,
+                pca_results_folder,
+                "tsne",
+                title="Tsne: Max Eigen Ratio, Variance and Area Under ER Curve",
+                legends=distinct_labels,
+                axis_labels=["Tsne Axis 1", "Tsne Axis 2"])
+
+features = ["Max Eigen Ratio", "Variance of Eigen Ratio"]
+scatter_plot_2d(df[features].values, labels, pca_results_folder, "max_eig_ratio_variance",
+                title="Max Eigen Ratio and  Variance",
+                legends= distinct_labels,
+                axis_labels=features)
+
+features = ["Max Eigen Ratio", "Normalized Area Under Eigen Ratio"]
+scatter_plot_2d(df[features].values, labels, pca_results_folder, "max_eig_ratio_area",
+                title="Max Eigen Ratio and  Area",
+                legends= distinct_labels,
+                axis_labels=features)
+
+features = ["Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]
+scatter_plot_2d(df[features].values, labels, pca_results_folder, "variance_area",
+                title="Variance and  Area",
+                legends= distinct_labels,
+                axis_labels=features)
+

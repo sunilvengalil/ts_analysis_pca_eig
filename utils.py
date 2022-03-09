@@ -46,14 +46,14 @@ def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
     num_splits = 0
 
     eig_ratio = split_series(s[interval[0]:interval[1]])
-    print("eig_ratio", eig_ratio)
+#    print("eig_ratio", eig_ratio)
     #     if eig_ratio > min_eig_value:
     #         results.append((eig_ratio, interval))
 
     if interval[1] - interval[0] > MIN_INTERVAL_SIZE:
         mid = (interval[1] + interval[0]) // 2
         if eig_ratio < min_eig_value:
-            print("Splitting further")
+#            print("Splitting further")
             splits_to_process.append([interval[0], mid])
             splits_to_process.append([mid, interval[1]])
             num_splits += 1
@@ -161,3 +161,28 @@ def compute_svd(data, M, tau, max_num_samples_to_take = MAX_NUM_SAMPLES_TO_TAKE)
     svd = np.linalg.svd(shifted_for_svd)
     return svd
 
+def verify_tsne(data, tsne):
+    data_distance = np.zeros((data.shape[0], data.shape[0]))
+    tsne_distance = np.zeros((data.shape[0], data.shape[0]))
+    for i in range(data.shape[0]):
+        for j in range(i + 1, data.shape[0]):
+            data_distance[i, j] = np.linalg.norm(data[i, :] - data[j, :])
+            tsne_distance[i, j] = np.linalg.norm(tsne[i, :] - tsne[j, :])
+    print("Data distance")
+    print(data_distance)
+
+    print("Tsne distance")
+    print(tsne_distance)
+
+
+def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_labels):
+    cdict = {1: 'red', 2: 'blue'}
+    for g in np.unique(labels):
+        ix = np.where(labels == g)
+        plt.scatter(data[ix, 0], data[ix, 1], c=cdict[g], label=legends[g - 1])
+
+    plt.legend()
+    plt.title(title)
+    plt.xlabel(axis_labels[0])
+    plt.ylabel(axis_labels[1])
+    plt.savefig(f"{out_folder}/{file_name}.jpg")
