@@ -34,9 +34,15 @@ gt_dictionary = {file_name:ground_truth for file_name, ground_truth in zip(file_
 file_name = "time_series"
 M = 10
 tau = 20
+shuffle = True
 
-svd_results_folder = f"svd_results_m_{M}_tau_{tau}"
-pca_results_folder = f"pca_results_m_{M}_tau_{tau}"
+
+if shuffle:
+    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_shuffled"
+    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_shuffled"
+else:
+    svd_results_folder = f"svd_results_m_{M}_tau_{tau}"
+    pca_results_folder = f"pca_results_m_{M}_tau_{tau}"
 
 if not os.path.isdir(svd_results_folder):
     os.mkdir(svd_results_folder)
@@ -55,7 +61,11 @@ max_value_dict = {}
 for file in files:
     with open(file_name + "/" + file, "r") as fp:
         text = fp.readlines()
-    data_dict[file] = np.asarray([float(d) for d in text])
+    ts = np.asarray([float(d) for d in text])
+    if shuffle:
+        np.random.shuffle(ts)
+
+    data_dict[file] = ts
     max_value = len(data_dict[file])
     max_value_dict[file] = max_value
     print(f"Number of samples in {file} {max_value}")
