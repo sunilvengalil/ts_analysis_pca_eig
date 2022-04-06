@@ -32,9 +32,9 @@ gt_dictionary = {file_name:ground_truth for file_name, ground_truth in zip(file_
 
 
 file_name = "time_series"
-M = 10
+M = 2
 tau = 20
-shuffle = True
+shuffle = False
 
 
 if shuffle:
