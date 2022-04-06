@@ -51,44 +51,42 @@
 \maketitle
 
 \begin{abstract}
-Black hole is one of the fascinating,  however mysterious, astro-physical  objects. In order to identify it one has to look at its environment, often forming a disc-like structure. This disc, called accretion disc, evolves with time transiting from one state to another. For example, in one extreme regime it shows temperature dependent radiations making the disc geometrically thin, and in other extreme  regime of time span however radiation turns out to be temperature independent making the disc hot and geometrically thick.  Nevertheless in general accretion disc lies in a state intermediate between the two extremes. The present mission is to capture black hole states  explicitly using PCA and SVD based decompositions. In order to do that we rely on time series data of black hole \textit{GRS 1915 + 105} obtained from RXTE satellite. As a black hole cannot be seen directly, identifying its states accurately could help in characterizing its properties. Earlier time series  analysis based on correlation dimension methods, supplemented by theory, argued for four specific states. However there are caveats when data themselves are not free from noise and the  appropriate method for such an analysis itself is exploratory. Present interdisciplinary study aims at, on one hand to cross-verify the previous inference, on the other hand to identify, if any,  novel characteristics of black holes. This is expected to have long standing implications in astrophysics and otherwise.
+Black hole is one of the fascinating,  however mysterious, astro-physical  objects. In order to identify it one has to look at its environment, often forming a disc-like structure. This disc, called accretion disc, evolves with time transiting from one state to another. For example, in one extreme regime it shows temperature dependent radiations making the disc geometrically thin, and in yet another extreme  regime of time span however radiation turns out to be temperature independent making the disc hot and geometrically thick.  Nevertheless, in general, accretion disc lies in a state intermediate between the two extremes. The present mission is to capture black hole states  explicitly using PCA and SVD based decompositions. In order to do that we rely on time series data of black hole \textit{GRS 1915 + 105} obtained from RXTE satellite. As a black hole cannot be seen directly, identifying its states accurately could help in characterizing its properties. Earlier time series  analysis based on correlation integral approaches, supplemented by theory, argued for four specific states. However there are caveats when data themselves are not free from noise and the  appropriate method for such an analysis itself is exploratory. Present interdisciplinary study aims at, on one hand,  to cross-verify the previous inference, on the other hand to identify, if any,  novel characteristics of black holes. This is expected to have long standing implications in astrophysics and otherwise.
 \end{abstract}
 
 \section{Introduction}
-A challenging problem in astrophysics is the understanding of black holes. In this work, we focus on the black hole source GRS 1915+105, which presents several intriguing facets. One of the fundamental aspects of the understanding is to determine if the black hole source is a stochastic system or a non-stochastic one. The latter one is related to the well turbulent nature of the system. There are several studies that utilize the Correlation Integral (CI) approach to determine the characterization of the black hole data \cite{Mukhopadhyay2004, misra2006}. However, there can also be other approaches to understanding the same data by applying, for e.g.,  matrix-based methods such as Principal Component Analysis (PCA) and Singular Value Decomposition (SVD). It is useful to compare the inferences obtained using these two distinct approaches; the implications of the (dis)similarities in inferences, if any, could lead to questions about understanding the temporal dynamics of the system.
+A challenging problem in astrophysics is the understanding of black holes. In this work, we focus on the black hole source GRS 1915+105, which presents several intriguing facets. One of the fundamental aspects of the understanding is to determine if the black hole source is a Stochastic system or a Non-stochastic one. The latter one is related to the well turbulent nature of the system. There are several studies that utilize the Correlation Integral (CI) approach to determine the characterization of the black hole data \cite{Mukhopadhyay2004, misra2006}. However, there can also be other approaches to understanding the same data by applying, for e.g.,  matrix-based methods such as Principal Component Analysis (PCA) and Singular Value Decomposition (SVD). It is useful to compare the inferences obtained using these two distinct approaches; the implications of the (dis)similarities in inferences, if any, could lead to questions about understanding the temporal dynamics of the system.
 
 Following are the major contributions of this paper:
 \begin{itemize}
-  \item We use PCA, an approach widely used for decorrelating features and dimensionality reduction, for characterizing a time series as stochastic vs non-stochastic. We propose a novel approach by iteratively computing eigen value ratios  of covariance matrix for different subintervals of the time series. We  derive multiple features from the eigen value ratios and use them to characterize the time series. Utility of the proposed approach is illustrated by comparing the results with previously established methods.
-  \item We use SVD decomposition of the data matrix for identifying the temporal dynamics of the time series. A plot involving top two right singular vectors of the data matrix shows a clear distinction between stochastic and non-stochastic time series.
+  \item We use PCA, an approach widely used for decorrelating features and dimensionality reduction, for characterizing a time series as Stochastic vs Non-stochastic. We propose a novel approach by iteratively computing eigen value ratios  of covariance matrix for different subintervals of the time series. We  derive multiple features from the eigen value ratios and use them to characterize the time series. Utility of the proposed approach is illustrated by comparing the results with previously established methods.
+  \item We use SVD decomposition of the data matrix for identifying the temporal dynamics of the time series. A plot involving top two right singular vectors of the data matrix shows a clear distinction between Stochastic and Non-stochastic time series.
 \end{itemize}
 \section{Related Work}
-Several groups have worked on distinguishing between stochastic and non-stochastic time series. In the work reported in \cite{Boaretto2021}, a Neural Network based approach is used. A Neural Network is trained with noise to learn the parametrization of stochastic signals. The paper explores the idea of utilizing permutation entropy (PE) of a time series to determine if it is strongly correlated with stochastic signal (noise).  The idea of utilizing Permutation Entropy to determine the complexity measure of a time series was previously explored in \cite{Bandt2002}. The claim is that for Non-stochastic signals the deviation of the parameter is relatively large as compared to the parameter of a stochastic signal.
+Several groups have worked on distinguishing between Stochastic and Non-stochastic time series. In the work reported in \cite{Boaretto2021}, a Neural Network based approach is used. A Neural Network is trained with noise to learn the parametrization of stochastic signals. The paper explores the idea of utilizing permutation entropy (PE) of a time series to determine if it is strongly correlated with stochastic signal (noise).  The idea of utilizing Permutation Entropy to determine the complexity measure of a time series was previously explored in \cite{Bandt2002}. The claim is that for Non-stochastic signals the deviation of the parameter is relatively large as compared to the parameter of a stochastic signal.
 
 Yet another approach has been to utilize graph theoretical tools. In the work reported in \cite{lacasa2010}, the authors have utilized
-the horizontal visibility algorithm in order to distinguish between stochastic and non-stochastic processes.
+the horizontal visibility algorithm in order to distinguish between Stochastic and Non-stochastic processes.
 
-In the approach outlined in \cite{Brunton2016}, the authors combine the idea of sparsity and machine learning with non-linear dynamical systems, in order to determine the governing dynamics. Sparse regression is used to determine the fewest terms in the equations that govern the dynamics of the phenomenon. The user-defined basis consists of well-known functions such as polynomials, trigonometric functions and exponentials. The coefficients corresponding to very few of these basis functions will be non-zero for a non-stochastic system. However, the optimal choice of dictionary remains a challenge.
+In the approach outlined in \cite{Brunton2016}, the authors combine the idea of sparsity and machine learning with non-linear dynamical systems, in order to determine the governing dynamics. Sparse regression is used to determine the fewest terms in the equations that govern the dynamics of the phenomenon. The user-defined basis consists of well-known functions such as polynomials, trigonometric functions and exponentials. The coefficients corresponding to very few of these basis functions will be non-zero for a Non-stochastic system. However, the optimal choice of dictionary remains a challenge.
 
 In this work we propose to utilize matrix based methods which do not require any assumptions about the underlying phenomenon.
 
 \begin{figure*}[ht]
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{theta_ts_edited.drawio.png}
-  \caption{A representative of stochastic time series of class $\theta$}
+  \caption{A representative of Non-stochastic time series of class $\theta$}
   \label{theta_ts}
 \end{figure*}
 \begin{figure*}[ht]
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=0.8\linewidth]{theta_ts_eig.png}
-  \caption{Plot of eigen ratio of the  stochastic time series shown in Figure \ref{theta_ts}}
+  \caption{Plot of eigen ratio of the  Non-stochastic time series shown in Figure \ref{theta_ts}}
   \label{theta_eig}
 \end{figure*}
 
 \section{Proposed Method}
-In this work, we use two different matrix based approaches, one using PCA and the second using SVD, to characterize time series as stochastic vs non-stochastic.
+In this work, we use two different matrix based approaches, one using PCA and the second using SVD, to characterize time series as Stochastic vs Non-stochastic.
 
 \subsection{PCA Based approach}
 In the first approach, we utilize PCA to understand if the available data occupy a preferred orientation. This can be computed by splitting the time series into two halves, and computing the covariance matrix of these observations. The eigen values of this $2 \times 2$ covariance matrix will show one of the signatures : If the data indeed shows any preferred direction (as in Non-stochastic time series), then the larger eigen value will be significantly greater than the other. This will lead to a large ratio of the eigen values. On the other hand, if the data does not show any preferred direction (as in Stochastic time series), then the two eigen values of the covariance matrix will be comparable. This will lead to small values of eigen value ratio.
@@ -104,8 +102,8 @@ If eigen ratio for an interval is less than a predefined threshold (empirically 
 Using PCA analysis we derived the following three features for each time series:
 \begin{itemize}
   \item Maximum eigen ratio (MER): This is the maximum value obtained as the ratio of the two eigen values of the covariance matrix of any sub-interval of the time series.
-  \item Variance of eigen ratio: This is the variance of the eigen ratios of covariance matrices across sub-interval in the entire time series.
-  \item Area under the eigen ratio curve: This measure captures the area under the curve of the eigen ratio for the entire time series.
+  \item Variance of eigen ratio (VAR): This is the variance of the eigen ratios of covariance matrices across sub-interval in the entire time series.
+  \item Area under the eigen ratio curve (Area): This measure captures the area under the curve of the eigen ratio for the entire time series.
 \end{itemize}
 
 
@@ -122,45 +120,51 @@ In this approach, we form uncorrelated observation vectors from the raw time ser
 
 
 \begin{figure*}[ht]
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=0.9\linewidth]{phi_ts_edited.drawio.png}
-  \caption{A representative of non-stochastic time series of class $\phi$}
+  \caption{A representative of Stochastic time series of class $\phi$}
   \label{phi_ts}
-%\end{subfigure}
   \end{figure*}
 
 \begin{figure*}[ht]
-
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=0.9\linewidth]{phi_ts_eig.png}
-  \caption{Plot of eigen ratio of the non-stochastic signal shown in Figure \ref{phi_ts}}
+  \caption{Plot of eigen ratio of the Stochastic time series shown in Figure \ref{phi_ts}}
   \label{phi_eig}
-%\end{subfigure}
 \end{figure*}
 
 \subsection{PCA Based Analysis}
 
-Figure \ref{theta_eig}  and \ref{phi_eig} shows the maximum eigen ratio plot for stochastic and non-stochastic time series respectively. In our experiments using time series of 12 different classes, we noticed the following behavior for each of the PCA features:
+Figure \ref{theta_eig}  and \ref{phi_eig} shows the eigen ratio plots for Non-stochastic and Stochastic time series respectively. In our experiments using time series of 12 different classes, we compute the three PCA based features which are Maximum eigen ratio (MER), Variance of the Eigen Ratio (VAR) and Area under the Eigen ratio curve (Area). Table \ref{tab:results} tabulates the following quantities as described below:
+
+\begin{enumerate}
+  \item Column 1 gives the class of the time series \cite{Adegoke2018}.
+  \item Column 2 gives the inference about the state of the time series using correlation integral approach \cite{Adegoke2018}.
+  \item Columns 3 and 4 give  quantities Diskbb and  PL which indicate the state of the black hole \cite{Adegoke2018}.
+  \item The computed PCA based features MER, VAR and Area  are tabulated in columns 5, 6 and 7 respectively.
+\end{enumerate}
+
+We examined various clusters formed using above PCA features and came up with the following guidelines in order to infer the state of black hole. For example a sample visualization of the clusters formed in the Variance-Area feature space is shown in Figure \ref{fig:variance_area_fs}.
+
 \begin{itemize}
-  \item Max eigen ratio: For stochastic time series, eigen ratio values are small across the entire time series, typically lying in the range 1-20. This implies the maximum eigen ratio value will also be small. On the other hand, for the non-stochastic time series the eigen ratio values are significantly high, typically reaching a few thousands in certain sub-intervals. Hence the maximum eigen ratio value for a non-stochastic time series is typically large.
-  \item Variance of eigen ratios: For a stochastic signal since the range of eigen ratio values is typically small, the variance is also small. On the other hand, for a non-stochastic signal, since the eigen ratio values occupy a large range of values, their variance is typically high.
-  \item Area under the eigen ratio curve: For a stochastic time series, since the eigen ratio values are small the area under the curve is also small. However, for a non-stochastic signal the eigen ratio values remain high for longer time intervals. Hence the area under the curve is significantly higher.
+  \item MER: For stochastic time series, eigen ratio values are small across the entire time series, typically lying in the range 1-20. This implies the maximum eigen ratio value will also be small. On the other hand, for the Non-stochastic time series the eigen ratio values are significantly high, typically reaching a few thousands in certain sub-intervals. Hence the maximum eigen ratio value for a Non-stochastic time series is typically large.
+  \item VAR: For a stochastic signal since the range of eigen ratio values is typically small, the variance is also small. On the other hand, for a Non-stochastic signal, since the eigen ratio values occupy a large range of values, their variance is typically high.
+  \item Area: For a stochastic time series, since the eigen ratio values are small the area under the curve is also small. However, for a Non-stochastic signal the eigen ratio values remain high for longer time intervals. Hence the area under the curve is significantly higher.
 \end{itemize}
+
+Our inference using these PCA features are given in column 8 and finally the last column gives if there is a match between PCA based inference and correlation integral based inference.
 
 \begin{figure}
     \centering
-    \includegraphics[width=.9\linewidth]{variance_area.jpg}
-    \caption{Feature space (variance and area) shows that the two classes are well separated}
-    \label{figure11}
+    \includegraphics[width=.9\linewidth]{var_area_fs.drawio.png}
+    \caption{Feature space (variance and area) shows that the two classes are well separated. The dashed line shows the decision boundary separating the two classes. The label of one of the time series is ambiguous}
+    \label{fig:variance_area_fs}
 \end{figure}
 
-The above characteristics have been exploited in the present study to distinguish between stochastic vs non-stochastic signals. Visualization of the time series in the space of these derived features as shown in Figure \ref{figure11} shows the clear separation between stochastic and non-stochastic time series for most of the cases. These two computed measures, area under the ER curve and variance take into account the entire span of time series and hence form robust feature space. Our inference for each of the time series using above guidelines is shown in Table \ref{tab:results}. It is noticed that our inference matches with analysis result based on CI in all the cases except for class $\delta$. According to the CI analysis $\delta$ turns out to be in between class Slim disc and General advective accretion flow (GAAF) \cite{Adegoke2018}. However, the present analysis shows that $\delta$ falls in between Advection dominated accretion flow (ADAF) and Keplerian disc.
-
+We observe  that the PCA based features, Area and Variance,  result in better clustering as shown in Figure \ref{fig:variance_area_fs}. This could be attributed to the fact that   these features take into account the entire span of time series and hence form robust feature space. Our inference for each of the time series using above guidelines is shown in Table \ref{tab:results}. It is noticed that our inference matches with analysis result based on CI in all the cases except for class $\delta$. According to the CI analysis $\delta$ turns out to be in between class Slim disc and General advective accretion flow (GAAF) \cite{Adegoke2018}. However, the present analysis shows that $\delta$ falls in between Advection dominated accretion flow (ADAF) and Keplerian disc, as explained in \cite{Adegoke2018}.
 
 \begin{table*}[t]
-\caption{Time series: comparison between correlation dimension behavior vs proposed PCA features. The mismatched time series class is shown in bold.}
+\caption{Time series: comparison between correlation integral based label vs Inference using proposed PCA features. The mismatched time series class, $\delta$, is shown in bold. LC stands for Limit Cycle \cite{Adegoke2018} which is Non-stochasitic.}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -198,17 +202,15 @@ $\chi$ & S & 09 & 89 & 5.6 & 0.25 & 6.05 & Stochastic & Yes \\
 \subsection{SVD based approach}
 
 \begin{figure}[ht]
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=\linewidth]{rho_svd.jpg}
-  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  time series $\rho$ (non-stochastic)}
+  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  time series $\rho$ (Non-stochastic)}
   \label{svd_rho}
 \end{figure}
 
-From SVD decomposition of the data matrix, we pick up the top 2 right singular vectors (E1, E2) corresponding to the temporal dynamics and plot E1 vs E2 for each time series. Figure \ref{svd_rho} shows the plot for time series $\rho$ which is of type Limit Cycle \cite{misra2006}. Figures \ref{chi_svd} and \ref{lamda_svd} show the plots for class $\chi$ and $\lambda$  which are stochastic and non-stochastic respectively. It is observed that the plot of right singular vectors follows certain pattern (attractor behaviour) in case of non-stochastic signal whereas no such pattern is visible in stochastic case.
+From SVD decomposition of the data matrix, we pick up the top 2 right singular vectors (E1, E2) corresponding to the temporal dynamics and plot E1 vs E2 for each time series. Figure \ref{svd_rho} shows the plot for time series $\rho$ which is of type Limit Cycle \cite{misra2006}. Figures \ref{chi_svd} and \ref{lamda_svd} show the plots for class $\chi$ and $\lambda$  which are stochastic and Non-stochastic respectively. It is observed that the plot of right singular vectors follows certain pattern (attractor behaviour) in case of Non-stochastic signal whereas no such pattern is visible in stochastic case.
 
 \begin{figure}[ht]
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=\linewidth]{chi_svd.jpg}
   \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  time series $\chi$ (stochastic)}
@@ -216,16 +218,15 @@ From SVD decomposition of the data matrix, we pick up the top 2 right singular v
 \end{figure}
 
 \begin{figure}[ht]
-%\begin{subfigure}{1\textwidth}
   \centering
   \includegraphics[width=\linewidth]{lamda_svd.jpg}
-  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  time series $\lambda$ (non-stochastic)}
+  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  time series $\lambda$ (Non-stochastic)}
   \label{lamda_svd}
 \end{figure}
 
 
 \section{Conclusion}
-Exploring different techniques in order to have a conclusive inference for black hole systems turns out to be indispensable. We explore two different techniques for the first time in the literature to uncover  properties of black holes from the time series obtained from satellite data. Based on our analysis, we are able to identify two extreme temporal dynamical classes of accretion around black holes. We use Principal Component Analysis, a widely used technique to identify an prominent directionality in the data, in order to characterize the time series as stochastic vs non-stochastic. We further extend the Correlation Integral based studies by performing Singular Value Decomposition on the data matrix and using the right singular vectors in order to study temporal dynamics. Our results  are matching with previous Correlation Integral based studies in most of the cases.
+Exploring different techniques in order to have a conclusive inference for black hole systems turns out to be indispensable. We explore two different techniques for the first time in the literature to uncover  properties of black holes from the time series obtained from satellite data. Based on our analysis, we are able to identify two extreme temporal dynamical classes of accretion around black holes. We use Principal Component Analysis, a widely used technique to identify an prominent directionality in the data, in order to characterize the time series as Stochastic vs Non-stochastic. We further extend the Correlation Integral based studies by performing Singular Value Decomposition on the data matrix and using the right singular vectors in order to study temporal dynamics. Our results  are matching with previous Correlation Integral based studies in most of the cases.
 % conference papers do not normally have an appendix
 
 
