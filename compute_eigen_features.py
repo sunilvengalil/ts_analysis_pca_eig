@@ -38,11 +38,11 @@ shuffle = False
 
 
 if shuffle:
-    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_shuffled"
-    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_shuffled"
+    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_shuffled_v2"
+    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_shuffled_v2"
 else:
-    svd_results_folder = f"svd_results_m_{M}_tau_{tau}"
-    pca_results_folder = f"pca_results_m_{M}_tau_{tau}"
+    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_v2"
+    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_v2"
 
 if not os.path.isdir(svd_results_folder):
     os.mkdir(svd_results_folder)
