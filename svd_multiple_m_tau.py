@@ -10,10 +10,10 @@ max_num_samples_to_take = 5000
 MIN_EIGEN_VALUE = 10
 
 
-#file_names = ["Delta", "Theta", "Beta", "Kai", "Lorenz", "Lordata", "Lambda", "Kappa", "Phi", "Gamma", "Alpha", "Mu", "Nu", "Rho"]
+# file_names = ["Delta", "Theta", "Beta", "Kai", "Lorenz", "Lordata", "Lambda", "Kappa", "Phi", "Gamma", "Alpha", "Mu", "Nu", "Rho"]
 # file_names =["Mu", "Nu","Alpha", "Delta"]
-#ground_truths = ["STOCHASTIC", "NON-ST", "NON-ST", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST", "STOCHASTIC", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST"]
-#gt_dictionary = {file_name:ground_truth for file_name, ground_truth in zip(file_names, ground_truths) }
+# ground_truths = ["STOCHASTIC", "NON-ST", "NON-ST", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST", "STOCHASTIC", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST"]
+# gt_dictionary = {file_name:ground_truth for file_name, ground_truth in zip(file_names, ground_truths) }
 
 
 file_name = "time_series"

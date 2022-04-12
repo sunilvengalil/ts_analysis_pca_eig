@@ -8,7 +8,7 @@
 \begin{document}
 
 % paper title
-\title{Identification of black hole states using matrix based methods: Time series analysis of RXTE satellite data}
+\title{Identification of black hole states  using matrix based methods: Time series analysis of RXTE satellite data}
 
 % author names and affiliations
 % use a multiple column layout for up to three different
@@ -51,62 +51,45 @@
 \maketitle
 
 \begin{abstract}
-Black hole is one of the fascinating,  however mysterious, astrophysical  objects. In order to identify it one has to look at its environment, often forming a disc-like structure. This disc, called accretion disc, evolves with time transiting from one state to another. For example, in one extreme regime it shows temperature dependent radiations making the disc geometrically thin, and in yet another extreme  regime of time span however radiation turns out to be temperature independent making the disc hot and geometrically thick.  Nevertheless, in general, accretion disc lies in  states intermediate between the two extremes. The present mission is to capture black hole states  explicitly using PCA and SVD based decompositions. In order to do that we rely on timeseries data of black hole \textit{GRS 1915 + 105} obtained from RXTE satellite. As a black hole cannot be seen directly, identifying its states accurately could help in characterizing its properties. Earlier timeseries  analysis based on Correlation Integral approaches, supplemented by theory, argued for four specific states. However there are caveats when data themselves are not free from noise and the  appropriate method for such an analysis itself is exploratory. Present interdisciplinary study aims at, on one hand,  to cross-verify the previous inference, on the other hand to identify, if any,  novel characteristics of black holes. This is expected to have long standing implications in astrophysics and otherwise.
+Black hole is one of the fascinating,  however mysterious, astrophysical  objects. In order to identify it one has to look at its environment, often forming a disc-like structure. This disc, called accretion disc, evolves with time transiting from one state to another. For example, in one extreme regime it shows temperature dependent radiations making the disc geometrically thin, and in yet another extreme  regime of time span however radiation turns out to be temperature independent making the disc hot and geometrically thick.  Nevertheless, in general, accretion disc lies in  states intermediate between the two extremes. The present mission is to capture black hole states  explicitly using SVD and PCA based decompositions. In order to do that we rely on time series data of black hole \textit{GRS 1915 + 105} obtained from RXTE satellite. As a black hole cannot be seen directly, identifying its states accurately could help in characterizing its properties. Earlier time series  analysis based on Correlation Integral (CI) approaches, supplemented by theory, argued for four specific states. However there are caveats when data themselves are not free from noise and the  appropriate method for such an analysis itself is exploratory. Present interdisciplinary study aims at, on one hand,  to cross-verify the previous inference, on the other hand to identify, if any,  novel characteristics of black holes. In the experiments conducted it was found that among the proposed matrix based methods, SVD analysis concurs with CI based analysis on all the 12 classes of time series utilized. However, the inference using PCA based approach illustrates that one  class among the 12 turned out to be inconsistent with the other approaches. Investigation into these (in)consistencies  is expected to have long standing implications in astrophysics and otherwise.
 \end{abstract}
 
 \section{Introduction}
-One of the challenging problems in astrophysics is the understanding of black holes. As the black holes can not be seen directly, to identify it one has to look for its environment forming a disc like structure by the infalling matter called accretion disc. In this work, we focus on the black hole source GRS 1915+105, which presents several intriguing facets. One of the fundamental aspects of the understanding is to determine if the black hole source is a stochastic system or a non-stochastic one. The latter one is related to the well-known turbulent nature of the system. There are several studies that utilize the Correlation Integral (CI) approach to determine the characterization of the black hole data \cite{Mukhopadhyay2004, misra2006}. However, there can also be other approaches to understanding the same data by applying, for e.g.,  matrix-based methods such as Principal Component Analysis (PCA) and Singular Value Decomposition (SVD). It is useful to compare the inferences obtained using these two distinct approaches; the implications of the (dis)similarities in inferences, if any, could lead to questions about understanding the temporal dynamics of the system.
+One of the challenging problems in astrophysics is the understanding of black holes. As the black holes cannot be seen directly, to identify it, one has to look for its environment forming a disc-like structure by the infalling matter called accretion disc. In this work, we focus on the black hole source GRS 1915+105, which presents several intriguing facets. One of the fundamental aspects of the understanding is to determine if the black hole source is a stochastic system or a non-stochastic one. The latter one is related to the well-known turbulent nature of the system. There are several studies that utilize the Correlation Integral (CI) approach to determine the characterization of the black hole data \cite{Mukhopadhyay2004, misra2006}. However, there can also be other approaches to understanding the same data by applying, for e.g.,  matrix-based methods such as Principal Component Analysis (PCA) and Singular Value Decomposition (SVD) . It is useful to compare the inferences obtained using these two distinct approaches; the implications of the (dis)similarities in inferences, if any, could lead to questions about understanding the temporal dynamics of the system.
 
-Interestingly, to quantify the properties of a black hole source, along with temporal features one has to look for spectral features as well, they together lead to the true nature of the source. If the source radiation is temperature dependent, it produces more like a blackbody radiation, namely multicolour blackbody or diskbb \cite{Shakura1973}. On the other hand, the temperature independent radiation consists of a power-law tail, named as PL \cite{chakrabarti1995,narayan1994}.
+Interestingly, to quantify the properties of a black hole source, along with temporal features one has to look for spectral features as well, they together lead to the true nature of the source. If the source radiation is temperature dependent, it produces more like a blackbody radiation, namely multicolour blackbody or ``diskbb" \cite{Shakura1973}. On the other hand, the temperature independent radiation consists of a power-law tail, named as ``PL" \cite{chakrabarti1995,narayan1994}.
 While the former leads the underlying accretion disc around the black hole to be geometrically thin, the latter leads to a geometrically thick disc.
 
+In the present study, black hole states are determined by  classifying the given time series, photon count rate as a function of time,  as being either stochastic or non-stochastic. This classification is performed using classical matrix based methods, SVD and PCA. However, the novelty of the study lies in (i) quantifying temporal complexity obtained by SVD decomposition, using topological techniques and (ii) utilizing features derived from PCA for classification. Utility of the proposed approach is illustrated by comparing the results with previously established methods.
 
 Following are the major contributions of this paper:
 \begin{itemize}
-  \item We use SVD decomposition of the data matrix for identifying the temporal dynamics of the timeseries. A plot involving top two right singular vectors of the data matrix shows a clear distinction between stochastic and non-stochastic timeseries. This distiction is captures using the topological descriptor called Betti numbers \ref{jmlr}. The topological complext of stochastic timeseries is simpler than that of a non-stochastic one.
-  \item We use PCA which is a widely used approach for decorrelating features and dimensionality reduction. In this work, we utilized PCA for  for characterizing a timeseries as stochastic vs non-stochastic. We propose a novel approach by iteratively computing eigenvalue ratios  of covariance matrix for different subintervals of the timeseries. We  derive multiple features from the eigenvalue ratios and use them to characterize the timeseries. Utility of the proposed approach is illustrated by comparing the results with previously established methods.
+  \item SVD decomposition of the data matrix is used for identifying the temporal dynamics of the timeseries as in \cite{misra2006}. A plot involving top two right singular vectors of the data matrix shows a clear distinction between stochastic and non-stochastic timeseries. This distinction is captured using the topological descriptor called Betti numbers \cite{jmlr}. This descriptor for a stochastic timeseries is topologically simpler than that for a non-stochastic one.
 
+  \item PCA, which is a widely used approach for decorrelating features and dimensionality reduction, is utilized for characterizing a timeseries as stochastic vs non-stochastic. We propose a novel approach by iteratively computing eigenvalue ratios  of covariance matrix for different subintervals of the timeseries. We  derive multiple features from the eigenvalue ratios and use them to characterize the timeseries.
 \end{itemize}
+
 \section{Related Work}
-Several groups have worked on distinguishing between stochastic and non-stochastic timeseries. The idea of utilizing Permutation Entropy (PE) to determine the complexity measure of a timeseries is explored in \cite{Bandt2002}. In the work reported in \cite{Boaretto2021}, a Neural Network based approach is used. A Neural Network is trained with noise to learn the parametrization of stochastic signals. The paper explores the idea of utilizing PE of a timeseries to determine if it is strongly correlated with known stochastic signals (noise).   The claim is that for non-stochastic signals the deviation of the parameter is relatively large as compared to that of the parameter of a stochastic signal.  Yet another approach has been to utilize graph theoretical tools. In the work reported in \cite{lacasa2010}, the authors have utilized the horizontal visibility algorithm in order to distinguish between stochastic and non-stochastic processes.
+Several groups have worked on distinguishing between stochastic and non-stochastic timeseries. The idea of utilizing Permutation Entropy (PE) to determine the complexity measure of a timeseries is explored in \cite{Bandt2002}. In the work reported in \cite{Boaretto2021}, PE was used to parameterize a given time series  followed by classification using  Neural Network. A Neural Network is trained with noise to learn the parametrization of stochastic signals. The paper explores the idea of utilizing PE of a timeseries to determine if it is strongly correlated with known stochastic signals (noise).   The claim is that for non-stochastic signals the deviation of the parameter is relatively large as compared to that of the parameter of a stochastic signal.
 
-In the approach outlined in \cite{Brunton2016}, the authors combine the idea of sparsity and machine learning with non-linear dynamical systems, in order to determine the governing dynamics. Sparse regression is used to determine the fewest terms in the equations that govern the dynamics of the phenomenon. The user-defined dictionary of basis functions consists of well-known functions such as polynomials, trigonometric functions and exponentials. The coefficients corresponding to very few of these basis functions will be non-zero for a non-stochastic system. However, the optimal choice of dictionary for a specific choice of problem remains a challenge.
+A different set of reported studies are based on  graph theory and system identification. In the work reported in \cite{lacasa2010}, the authors have utilized the horizontal visibility algorithm in order to distinguish between stochastic and non-stochastic processes. In the approach outlined in \cite{Brunton2016}, the authors combine the idea of sparsity and machine learning with non-linear dynamical systems, in order to determine the governing dynamics. Sparse regression is used to determine the fewest terms in the equations that govern the dynamics of the phenomenon. The user-defined dictionary of basis functions consists of well-known functions such as polynomials, trigonometric functions and exponentials. The coefficients corresponding to very few of these basis functions will be non-zero for a non-stochastic system. However, the optimal choice of dictionary for a specific choice of problem remains a challenge.
 
-In this work we propose to utilize matrix based methods which do not require any assumptions about the underlying phenomenon.
-
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.8\linewidth]{theta_ts_edited.drawio.png}
-  \caption{A representative non-stochastic timeseries of class $\theta$ of \textit{GRS 1915 + 105}. }
-  \label{theta_ts}
-\end{figure*}
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.8\linewidth]{theta_ts_eig.png}
-  \caption{Plot of eigen-ratio of the  non-stochastic timeseries shown in Figure \ref{theta_ts}. }
-  \label{theta_eig}
-\end{figure*}
+In this work we propose to utilize classical matrix based methods which do not require any assumptions about the underlying phenomenon.
 
 \section{Proposed Method and Data used}
 
 In this work, we use two different matrix based approaches, one using SVD followed by  Betti number descriptors, and  another using PCA in order to characterize timeseries as stochastic vs non-stochastic.
 
 \subsection{SVD based approach}
-In this approach, we form uncorrelated observation vectors from the raw timeseries data by utilizing the optimal value of embedding dimension \cite{misra2006}. A data matrix, $D$, is formed with each row  as the  time shifted version of the original timeseries. The time shift is chosen to be large enough so that each row can be viewed as a different observation vector of the same phenomenon. The temporal dynamics is understood by utilizing the right singular vectors of the SVD decomposition of the data matrix as given in equation (\ref{eqn:svd}). Columns of $U$ and $V$  form the left and right singular vectors respectively and $\Sigma$ is a block diagonal matrix with diagonal elements as the singular values, given by
+In this approach, we form uncorrelated observation vectors from the raw timeseries data by utilizing the optimal value of embedding dimension \cite{misra2006}. A data matrix, $D$, is formed with each row  as the  time shifted version of the original timeseries. The time shift is chosen to be large enough so that each column can be viewed as a different observation vector of the same time evolving phenomenon. Temporal dynamics is understood by utilizing the right singular vectors of the SVD decomposition of $D$ as given in equation (\ref{eqn:svd}). Columns of $U$ and $V$  form the left and right singular vectors respectively and $\Sigma$ is a block diagonal matrix with diagonal elements as the singular values, given by
 \begin{equation}
   D = U \Sigma V^T.
   \label{eqn:svd}
 \end{equation}
-   We observe the plot of the top two right singular vectors (E1 and E2). For non-stochastic timeseries this plot is expected to show a specific patterned behavior (attractor behavior, where the plot follows a trajectory leaving a well-defined gap). On the other hand for stochastic timeseries, this behavior is absent.
-If we consider the  topological descriptors of this 2-D plot, we observed the following pattern.
-\begin{enumerate}
-  \item Stochastic: For a stochastic timeseries the E1-E2 plot has no prefered orientation and shows up as a single dense blob.
-  \item Non-stochastic: For a non-stochastic time series the E1-E2 plot is dominated by a prefered orientation and also shows multiple blobs with well defined gaps between the blobs. It is possible to find wholes with in the blobs.
-  \end{enumerate}
+   We observe the plot of the top two right singular vectors (E1 Vs E2). For non-stochastic timeseries this plot is expected to show a specific pattern (attractor behavior, where the plot follows a trajectory leaving a well-defined gap). On the other hand for stochastic timeseries, this behavior is absent.
 
-The above described characteristics can be captured by Betti numbers \cite{jmlr}. Here the plots are 2-d manifolds hence they need Betti numbers of orders 0 and 1 ($\beta_{0}$, $\beta_{1}$).  $\beta_{0}$ captures the number of blobs (connected component). It is expected for stochastic timeseries the value of $\beta_{0}$ be 1. However for non-stochastic timeseries the value of $\beta_{0}$ can also be greater than 1. $\beta_1$ captures, the number of 1-dimensional holes. For stochastic time series the value of $\beta_1$ is expected to be 0 since the E1-E2 plot is dense with no prefered orientation. However, for non-stochastic timeseries $\beta_1$ is expected to be greater than one due to the attractor behavior.
+The characteristics of the E1 Vs E2 plot are captured using Betti numbers \cite{jmlr}. Betti number descriptor for a $d$-dimensional manifold is a vector of $d$ integers which is represented as $\beta = (\beta_0, \beta_1 \mathellipsis \beta_{d-1})$. Here the E1 Vs E2 plots are 2-d manifolds, which are described by  $\beta=(\beta_{0}, \beta_{1}$).  $\beta_{0}$ is the number of blobs (connected components) while $\beta_1$ is the number of $1$-d holes. For a stochastic timeseries the values of $\beta_{0}$  and $\beta_1$ are expected to be 1 and 0 respectively, as the E1 Vs E2 plot consists of one single blob. However for a non-stochastic timeseries the values of $\beta_{0}$ and $\beta_1$ are both typically greater than 1, due to the attractor behavior.
 
-In this work, we explore the utility of PCA for characterizing a given timeseries as stochastic or non-stochastic.
 
 \subsection{PCA Based approach}
 We utilize PCA to understand if the available data posseses a dominant orientation. This can be computed by splitting the timeseries into two halves, and computing the covariance matrix of these observations. The eigenvalues of this $2 \times 2$ covariance matrix will show one of the signatures: If the data indeed show any dominant direction (as in non-stochastic timeseries), then the larger eigenvalue will be significantly greater than the other. This will lead to a large ratio of the eigenvalues. On the other hand, if the data do not show any dominant direction (as in stochastic timeseries), then the two eigenvalues of the covariance matrix will be comparable. This will lead to small values of eigenvalue ratio.
@@ -115,9 +98,9 @@ Consider a timeseries consisting of $n$ values  $z_1, z_2 \mathellipsis z_n$. We
 \begin{itemize}
   \item  Split the series into two halves $(z_1, z_2 \mathellipsis z_{\frac{n}{2}})$ and $(z_{\frac{n}{2} + 1}, \mathellipsis z_n)$.
   \item Compute covariance matrix, $C$,  by treating the samples in two halves as $n/2$ observations of two dimensional vectors.
-  \item Compute eigenvalues, $\lambda_1$ and $\lambda_2$ of $C$,  and the eigenvalue ratio is computed as  $\lambda_1/\lambda_2$ where $\lambda_1 \ > \lambda_2$ (Eigenvalues of a covariance matrix are real).
+  \item Find eigenvalues of $C$, $\lambda_1$ and $\lambda_2$; The eigenvalue ratio is computed as  $\lambda_1/\lambda_2$ where $\lambda_1 \ > \lambda_2$ (Eigenvalues of a covariance matrix are real).
 \end{itemize}
-If eigenvalue ratio for an interval is less than a predefined threshold (empirically determined as 10 for the given dataset), the interval is split into two subintervals of equal size and eigenvalue ratio for each sub-interval is computed. The process is repeated as long as the length of the sub-interval is greater than a predefined number of samples.
+If eigenvalue ratio for an interval is less than a predefined threshold (empirically determined as 10 for the given dataset), the interval is split into two sub-intervals of equal size and eigenvalue ratio for each sub-interval is computed. The process is repeated as long as the length of the sub-interval is greater than a predefined number of samples.
 
 Using PCA analysis we have derived the following three features for each timeseries:
 \begin{itemize}
@@ -127,57 +110,63 @@ Using PCA analysis we have derived the following three features for each timeser
 \end{itemize}
 
 \subsection{Data used}
-In this work the proposed approaches are illustrated on the publicly available data  at the website \cite{rxte}. 12 timeseries were utilized from the available data  of classes $\alpha$, $\beta$, $\gamma$, $\delta$, $\lambda$, $\kappa$, $\mu$, $\nu$, $\rho$, $\phi$, $\chi$ and $\theta$. All these timeseries were re-sample with a sampling interval of 0.1 second. This data set was also used in the work reported in \cite{Adegoke2018}, where the authors use CI based approaches. Results from the present work have been compared with the CI based results.
+The proposed approaches are illustrated on the publicly available data of \textit{GRS 1915 + 105} taken from website \cite{rxte}. 12 timeseries were utilized from the available data  of classes $\alpha$, $\beta$, $\gamma$, $\delta$, $\lambda$, $\kappa$, $\mu$, $\nu$, $\rho$, $\phi$, $\chi$ and $\theta$. All these timeseries were re-sampled with a sampling interval of 0.1 second. The same data was  used in the work reported in \cite{Adegoke2018}, where the authors use CI based approaches, leading us to be able to compare our obtained results with theirs. Figure \ref{phi_ts} and Figure \ref{theta_ts} show a representative time series of stochastic and non-stochastic  nature respectively.
 
-\section{Results and Discussions}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{phi_ts_edited.drawio.png}
+  \caption{A representative stochastic timeseries of class $\phi$ of \textit{GRS 1915 + 105} }
+  \label{phi_ts}
+  \end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{theta_ts_edited.drawio.png}
+  \caption{A representative non-stochastic timeseries of class $\theta$ of \textit{GRS 1915 + 105}. }
+  \label{theta_ts}
+\end{figure}
+
+\section{Results and Discussion}
 
 \subsection{Results of SVD based analysis}
 
 
 %From SVD decomposition of the data matrix, we pick up the top 2 right singular vectors (E1, E2) corresponding to the temporal dynamics and plot E1 vs E2 for each timeseries. Figure \ref{svd_e1e2_nonstochastic} shows the panel of representative E1-E2 plots for timeseries  that are classified as non-stochastic and Figure \ref{svd_e1e2_stochastic}  shows the corresponding panels for timeseries that are classified as stochastic. The Betti number descriptors for each of the E1-E2 plots are tabulated in Table \ref{tab:results} under the column Betti descriptors. In order to infer the label of the timeseries from the Betti descriptors, We use the following strategy. Betti descriptor $\beta = (\beta_0, \beta_1)$. We use L1-norm of $\beta$. If $\lvert \beta \rvert \gt 1$ then the timeseries is classified as non-stochastic else the timeseries is stochastic.
 
-From SVD decomposition of the data matrix, we pick up the top 2 right singular vectors (E1, E2) corresponding to the temporal dynamics and plot E1 vs E2 for each timeseries. Figure \ref{svd_e1e2_nonstochastic} shows the panel of representative E1-E2 plots for timeseries  that are classified as non-stochastic and Figure \ref{svd_e1e2_stochastic}  shows the corresponding panels for timeseries that are classified as stochastic. The Betti number descriptors for each of the E1-E2 plots are tabulated in Table \ref{tab:results} under the column Betti descriptors. In order to infer the label of the timeseries from the Betti descriptors, We use the following strategy. Betti descriptor $\beta = (\beta_0, \beta_1)$. We use L1-norm of $\beta$. If L1-norm of $\beta$ then the timeseries is classified as non-stochastic else the timeseries is stochastic.
+From SVD decomposition of the data matrix, we plot the top 2 right singular vectors (E1 Vs E2) to understand the temporal dynamics for each timeseries. Figure \ref{svd_e1e2_nonstochastic} shows the panel of representative E1 Vs E2 plots for timeseries  that are classified as non-stochastic and Figure \ref{svd_e1e2_stochastic}  shows the corresponding panels for timeseries that are classified as stochastic. The Betti number descriptors for each of the E1 Vs E2 plots are tabulated in Table \ref{tab:results} under the column Betti descriptors. In order to infer the label of the timeseries from the Betti descriptors, we use the L1-norm of $\beta$, $\|\beta\|_1$ . If $\|\beta\|_1 > 1$, the timeseries is classified as non-stochastic; else the timeseries is stochastic.
 
-\begin{figure}[ht]
+\begin{figure*}[ht]
   \centering
   \includegraphics[width=\linewidth]{svd_non_stochastic.png}
-  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  timeseries $\chi$ (non-stochastic) of \textit{GRS 1915 + 105}. The series are $\kappa$, $\mu$ and $\rho$ from left to right.}
+  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  representatives from non-stochastic time series of \textit{GRS 1915 + 105}. The series are $\kappa$, $\mu$ and $\rho$ from left to right.}
   \label{svd_e1e2_nonstochastic}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[ht]
+\begin{figure*}[ht]
   \centering
   \includegraphics[width=\linewidth]{svd_stochastic.png}
-  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  timeseries $\lambda$ (non-stochastic) of \textit{GRS 1915 + 105}. The series are $\phi$, $\chi$ and $\gamma$ from left to right.}
+  \caption{Plot of E1 Vs E2 (top two right singular vectors) of data matrix for  representatives from  stochastic time series  of \textit{GRS 1915 + 105}. The series are $\phi$, $\chi$ and $\gamma$ from left to right.}
   \label{svd_e1e2_stochastic}
-\end{figure}
-
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.9\linewidth]{phi_ts_edited.drawio.png}
-  \caption{A representative stochastic timeseries of class $\phi$ of \textit{GRS 1915 + 105} }
-  \label{phi_ts}
-  \end{figure*}
-
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.9\linewidth]{phi_ts_eig.png}
-  \caption{Plot of eigen-ratio of the stochastic timeseries shown in Figure \ref{phi_ts}.}
-  \label{phi_eig}
 \end{figure*}
+
 
 \subsection{Results of PCA based analysis}
 
-Figures \ref{theta_eig}  and \ref{phi_eig} show the eigenvalue ratio plots for non-stochastic and stochastic timeseries respectively. In our experiments using timeseries of 12 different classes of \textit{GRS 1915 + 105}, we compute the three PCA based features which are MER, VAR and Area. Table \ref{tab:results} lists the following quantities as described below:
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.9\linewidth]{phi_ts_eig.png}
+  \caption{Plot of eigenvalue ratio of the stochastic time series shown in Figure \ref{phi_ts}.}
+  \label{phi_eig}
+\end{figure}
 
-\begin{enumerate}
-  \item Column 1 (Class) gives the class of the timeseries \cite{Adegoke2018}.
-  \item Column 2 (Inference using CI) gives the inference about the state of the timeseries using CI approach \cite{Adegoke2018}.
-  \item Columns 3 (Diskbb) and 4 (PL) give quantities Diskbb and  PL, respectively, which indicate the state of the black hole \cite{Adegoke2018}.
-  \item The computed PCA based features: MER, VAR and Area  are tabulated in columns 5, 6 and 7 respectively.
-\end{enumerate}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{theta_ts_eig.png}
+  \caption{Plot of eigenvalue ratio of the  non-stochastic time series shown in Figure \ref{theta_ts}. }
+  \label{theta_eig}
+\end{figure}
 
-We have examined various clusters formed using above PCA features and have come up with the following guidelines in order to infer the state of black hole. For example a sample visualization of the clusters formed in the VAR-Area feature space is shown in Figure \ref{fig:variance_area_fs}.
+Figures \ref{phi_eig} and \ref{theta_eig} show the eigenvalue ratio plots for stochastic time series shown in Figure \ref{phi_ts} and  non-stochastic timeseries shown in Figure \ref{theta_ts} respectively. We compute the three PCA based features which are MER, VAR and Area  and utilize them for classification using the following observations:
 
 \begin{itemize}
   \item MER: For stochastic timeseries, eigenvalue ratios  are small across the entire timeseries, typically lying in the range 1-20. This implies that MER  will also be small. On the other hand, for  non-stochastic timeseries the eigenvalue ratios are significantly high, typically reaching a few thousands in certain sub-intervals. Hence the MER for a non-stochastic timeseries is typically large.
@@ -185,39 +174,51 @@ We have examined various clusters formed using above PCA features and have come 
   \item Area: For a stochastic timeseries, since the eigenvalue ratios  are small the Area is also small. However, for a non-stochastic signal the eigenvalue ratios remain high for longer time intervals. Hence the Area is significantly higher.
 \end{itemize}
 
-Our inference using these PCA features are given in column 8 (Inference using PCA). The betti descriptor vector ($\beta$) is given in Column 9 and Column 10 containes the inference using SVD. Finally the last column gives if there is a match between all three inferences.
+\subsection{Consolidated Results}
+
+Table \ref{tab:results}  tabulates the computed features and the respective inferences using the proposed approaches. Comparison of our results with CI based approach \cite{Adegoke2018} is also presented. The columns of the table are described below.
+
+\begin{enumerate}
+  \item Column 1 (\textit{Class}) gives the class of the timeseries \cite{Adegoke2018}.
+  \item Column 2 (\textit{Diskbb}) and Column 3 (\textit{PL}) give quantities Diskbb and  PL, respectively, which indicate the state of the black hole \cite{Adegoke2018}.
+  \item Column 4 (Inference using CI) gives the inference about the state of the timeseries using CI approach \cite{Adegoke2018}.
+  \item Column 5 (Betti descriptor) gives the Betti description of the E1 Vs E2 plots and column 6 gives the SVD based inference.
+  \item The computed PCA based features: MER, VAR and Area  are tabulated in columns 7, 8 and 9 respectively. Our inference using these PCA features is given in column 10.
+  \item Finally the last column gives if there is a match between all three inferences.
+\end{enumerate}
+
 
 \begin{table*}[t]
 \caption{Timeseries: Comparison between CI based label vs inference using proposed PCA features. The mismatched timeseries class, $\delta$, is shown in bold. (LC stands for Limit Cycle \cite{Adegoke2018} which is non-stochasitic.)}
 \begin{center}
 %\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-  \begin{tabular}{|p{0.5cm}|p{1cm}|p{0.75cm}|p{0.5cm}|p{0.75cm}|p{1cm}|p{0.5cm}|p{1.8cm}|p{2.5cm}|p{3cm}|p{0.75cm}|}
+  \begin{tabular}{|p{0.5cm}|p{0.75cm}|p{0.75cm}|p{1cm}|p{0.75cm}|p{1cm}|p{0.5cm}|p{1.8cm}|p{2.5cm}|p{3cm}|p{0.75cm}|}
 \hline
-Class & Inference using \newline CI & Diskbb & PL & MER & Variance & Area & Inference using \newline PCA & Betti descriptior & Inference using \newline SVD & Match \\
+Class & Diskbb & PL  & CI \newline Inference & MER & Variance & Area & PCA \newline Inference & Betti descriptior & SVD  \newline Inference & Match \\
 \hline
-$\beta$ & F & 46 & 52 & 214 & 483 & 43 & Non-stochastic & (1,3)& Non-stochastic &Yes\\
+$\beta$ & 46 & 52 & F &214 & 483 & 43 & Non-stochastic & (1,3)& Non-stochastic &Yes\\
 \hline
-$\theta$ & F & 11 &  88 & 577 & 778 & 58&Non-stochastic & (3, 2) & Non-stochastic & Yes \\
+$\theta$  & 11 &  88 & F & 577 & 778 & 58&Non-stochastic & (3, 2) & Non-stochastic & Yes \\
 \hline
-$\lambda$ & F & 54 & 46 & 600 & 6782 & 314 & Non-stochastic & (1,3) &Non-stochastic&Yes \\
+$\lambda$ &  54 & 46 & F & 600 & 6782 & 314 & Non-stochastic & (1,3) &Non-stochastic&Yes \\
 \hline
-$\kappa$ & F & 59 & 51 & 700 & 5199 & 144 & Non-stochastic & (1,2) &Non-stochastic&Yes \\
+$\kappa$ &  59 & 51 & F & 700 & 5199 & 144 & Non-stochastic & (1,2) &Non-stochastic&Yes \\
 \hline
-$\mu$ & F & 56 & 41 & 50 & 51 & 12 & Non-stochastic & (1,1) &Non-stochastic&Yes \\
+$\mu$  & 56 & 41& F & 50 & 51 & 12 & Non-stochastic & (1,1) &Non-stochastic&Yes \\
 \hline
-$\nu$ & F & 28 & 72 & 30 & 32 & 16 & Non-stochastic & (1,6) &Non-stochastic&Yes\\
+$\nu$  & 28 & 72 & F & 30 & 32 & 16 & Non-stochastic & (1,6) &Non-stochastic&Yes\\
 \hline
-$\alpha$ & F & 23 & 77 & 30 & 1.9 & 27.7 & Non-stochastic & (6,0 ) &Non-stochastic&Yes \\
+$\alpha$  & 23 & 77& F & 30 & 1.9 & 27.7 & Non-stochastic & (6,0 ) &Non-stochastic&Yes \\
 \hline
-$\rho$ & LC & 28 & 72 & 60 & 147 & 35 & Non-stochastic & (1,1) &Non-stochastic&Yes \\
+$\rho$  & 28 & 72 & LC & 60 & 147 & 35 & Non-stochastic & (1,1) &Non-stochastic&Yes \\
 \hline
-\textbf{$\delta$} & \textbf{S} & \textbf{48} & \textbf{50} & \textbf{42} & \textbf{9.74} & \textbf{26.2} & \textbf{Non-stochastic} &\textbf{(1,0)}& \textbf{Stochastic}& \textbf{No} \\
+\textbf{$\delta$}  & \textbf{48} & \textbf{50} &  \textbf{S} & \textbf{42} & \textbf{9.74} & \textbf{26.2} & \textbf{Non-stochastic} &\textbf{(1,0)}& \textbf{Stochastic}& \textbf{No} \\
 \hline
-$\phi$ & S & 50 & 34 & 7 & 0.5 & 15 & Stochastic &(1,0)&Stochastic& Yes \\
+$\phi$  & 50 & 34 & S & 7 & 0.5 & 15 & Stochastic &(1,0)&Stochastic& Yes \\
 \hline
-$\gamma$ & S & 60 & 31 & 12 & 1 & 16 & stochastic &(1,0)&Stochastic& Yes \\
+$\gamma$  & 60 & 31 & S & 12 & 1 & 16 & stochastic &(1,0)&Stochastic& Yes \\
 \hline
-$\chi$ & S & 09 & 89 & 5.6 & 0.25 & 6.05 & Stochastic &(1,0)&Stochastic& Yes \\
+$\chi$  & 09 & 89 & S & 5.6 & 0.25 & 6.05 & Stochastic &(1,0)&Stochastic& Yes \\
 \hline
 \end{tabular}
 \label{tab:results}
