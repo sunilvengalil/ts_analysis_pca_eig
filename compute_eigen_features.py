@@ -100,8 +100,9 @@ for file_name in data_dict.keys():
     values["Normalized Area Under Eigen Ratio"].append(normalized_area)
 
 # df = pd.DataFrame(values, columns=["File Name", "Maximum Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio", "Area Under Eigen Ratio"])
-
 df = pd.DataFrame(values)
+df["Betti descriptor"] = []
+
 df.to_csv(f"{pca_results_folder}/features.csv", index=False)
 pca_features = df[["Max Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]].values
 tsne = TSNE(perplexity=4).fit_transform(pca_features)

@@ -4,7 +4,11 @@
 % \documentclass[conference]{../sty/IEEEtran}
 \usepackage{graphicx}
 \usepackage{subcaption}
-\usepackage{biblatex}
+\usepackage{url}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
 \begin{document}
 
 % paper title
@@ -65,7 +69,7 @@ However, the novelty of the study lies in (i) quantifying temporal complexity ob
  \item Non-stochastic and diskbb: Keplerian disc \cite{Shakura1973}.
  \item Non-stochastic and PL: Advection Dominated Accretion Flow (ADAF)  \cite{narayan1994}.
  \item Stochastic and diskbb: Slim disc \cite{Abramowicz1988}.
- \item Stochastic and PL: General Advective Accretion Flow (GAAF) \cite{chakrabarti1995, rajesh2010 }.
+ \item Stochastic and PL: General Advective Accretion Flow (GAAF) \cite{chakrabarti1995, rajesh2010}.
 \end{enumerate}
 
 Utility of the proposed approach is illustrated by comparing the results with previously established methods. Following are the major contributions of this paper:
@@ -116,19 +120,19 @@ Using PCA analysis we have derived the following three features for each time se
 \end{itemize}
 
 \subsection{Data used}
-The proposed approaches are illustrated on the publicly available data of \textit{GRS 1915 + 105} taken from website \cite{rxte}. 12 distinct classes of time series are utilized from the available data. All these time series are re-sampled with a sampling interval of 0.1 second. These datasets  were  also used in the work reported in \cite{Adegoke2018}, where the authors use CI based approaches, leading us to be able to compare our obtained results with theirs. Figure \ref{phi_ts} and Figure \ref{theta_ts} show a representative time series of stochastic and non-stochastic  nature respectively.
+The proposed approaches are illustrated on the publicly available data of \textit{GRS 1915 + 105} taken from website \cite{xte}. 12 distinct classes of time series are utilized from the available data. All these time series are re-sampled with a sampling interval of 0.1 second. These datasets  were  also used in the work reported in \cite{Adegoke2018}, where the authors use CI based approaches, leading us to be able to compare our obtained results with theirs. Figure \ref{phi_ts} and Figure \ref{theta_ts} show a representative time series of stochastic and non-stochastic  nature respectively.
 
 \begin{figure}[ht]
  \centering
- \includegraphics[width=0.9\linewidth]{phi_ts_edited.drawio.png}
- \caption{A representative stochastic time series of class $\phi$ of \textit{GRS 1915 + 105} }
+ \includegraphics[width=0.9\linewidth]{phi_ts.png}
+ \caption{A representative stochastic time series of class $\phi$ of \textit{GRS 1915 + 105}. X-axis:Sample number (Scale: 0 - 35000), Y-axis: Photon count rate (Scale: 0 - 18000). }
  \label{phi_ts}
  \end{figure}
 
 \begin{figure}[ht]
  \centering
- \includegraphics[width=0.8\linewidth]{theta_ts_edited.drawio.png}
- \caption{A representative non-stochastic time series of class $\theta$ of \textit{GRS 1915 + 105}. }
+ \includegraphics[width=0.8\linewidth]{theta_ts.png}
+ \caption{A representative non-stochastic time series of class $\theta$ of \textit{GRS 1915 + 105}. X-axis:Sample number (Scale: 0 - 35000), Y-axis: Photon count rate (Scale: 0 - 45000). }
  \label{theta_ts}
 \end{figure}
 
@@ -161,14 +165,14 @@ From SVD decomposition of the data matrix, we plot the top 2 right singular vect
 \begin{figure}[ht]
  \centering
  \includegraphics[width=0.9\linewidth]{phi_ts_eig.png}
- \caption{Plot of eigenvalue ratio of the stochastic time series shown in Figure \ref{phi_ts}.}
+ \caption{Plot of eigenvalue ratio of the stochastic time series shown in Figure \ref{phi_ts}. X-axis: Sample number (Scale: 0 - 35000), Y-axis: Eigenvalue ratio(scale- 0 - 7). MER=7}
  \label{phi_eig}
 \end{figure}
 
 \begin{figure}[ht]
  \centering
  \includegraphics[width=0.8\linewidth]{theta_ts_eig.png}
- \caption{Plot of eigenvalue ratio of the  non-stochastic time series shown in Figure \ref{theta_ts}. }
+ \caption{Plot of eigenvalue ratio of the  non-stochastic time series shown in Figure \ref{theta_ts}. X-axis: Sample number (Scale: 0 - 35000), Y-axis: Eigenvalue ratio(scale- 0 - 600). MER=577 }
  \label{theta_eig}
 \end{figure}
 
@@ -245,54 +249,56 @@ Exploring different techniques in order to have a conclusive inference for black
 
 
 \begin{thebibliography}{1}
-\bibitem{Belloni2000}
-Belloni, T., et al. "A model-independent analysis of the variability of GRS 1915+ 105." arXiv preprint astro-ph/0001103 (2000).
-\bibitem{rajesh2010}
-Rajesh, S. R., and Banibrata Mukhopadhyay. "Two-temperature accretion around rotating black holes: a description of the general advective flow paradigm in the presence of various cooling processes to explain low to high luminous sources." Monthly Notices of the Royal Astronomical Society 402.2 (2010): 961-984.
 
- \bibitem{Abramowicz1988}
-Abramowicz, M. A., et al. "Slim accretion disks." The Astrophysical Journal 332 (1988): 646-658.
+ \bibitem{Belloni2000}
+Belloni, T., et al. ``A model-independent analysis of the variability of GRS 1915+ 105." arXiv preprint astro-ph/0001103 (2000).
 
-\bibitem{Mukhopadhyay2004}
-Mukhopadhyay, Banibrata. "Chaotic behavior of micro quasar GRS 1915+ 105." AIP Conference Proceedings. Vol. 714. No. 1. American Institute of Physics, 2004.
+ \bibitem{Mukhopadhyay2004}
+Mukhopadhyay, Banibrata. ``Chaotic behavior of micro quasar GRS 1915+ 105." AIP Conference Proceedings. Vol. 714. No. 1. American Institute of Physics, 2004.
 
 \bibitem{misra2006}
-Misra, Ranjeev, et al. "The nonlinear behavior of the black hole system grs 1915+ 105." The Astrophysical Journal 643.2 (2006): 1114.
-
-\bibitem{Bandt2002}
-Bandt, Christoph, and Bernd Pompe. "Permutation entropy: a natural complexity measure for time series." Physical review letters 88.17 (2002): 174102.
-
-\bibitem{Boaretto2021}
-Boaretto, B. R. R., et al. "Discriminating chaotic and stochastic time series using permutation entropy and artificial neural networks." Scientific reports 11.1 (2021): 1-10.
-
-\bibitem{lacasa2010}
- Lacasa, Lucas, and Raul Toral. "Description of stochastic and chaotic series using visibility graphs." Physical Review E 82.3 (2010): 036120.
-
-\bibitem{Brunton2016}
- Brunton, Steven L., Joshua L. Proctor, and J. Nathan Kutz. "Discovering governing equations from data by sparse identification of nonlinear dynamical systems." Proceedings of the national academy of sciences 113.15 (2016): 3932-3937.
-
-\bibitem{Adegoke2018}
-Adegoke, Oluwashina, et al. "Correlating non-linear properties with spectral states of RXTE data: possible observational evidences for four different accretion modes around compact objects." Monthly Notices of the Royal Astronomical Society 476.2 (2018): 1581-1595.
+Misra, Ranjeev, et al. ``The nonlinear behavior of the black hole system grs 1915+ 105." The Astrophysical Journal 643.2 (2006): 1114.
 
 \bibitem{Shakura1973}
-Shakura, Ni I., and Rashid Alievich Sunyaev. "Black holes in binary systems. Observational appearance." Astronomy and Astrophysics 24 (1973): 337-355.
-
-\bibitem{narayan1994}
- Narayan, Ramesh, and Insu Yi. "Advection-dominated accretion: Underfed black holes and neutron stars." arXiv preprint astro-ph/9411059 (1994).
+Shakura, Ni I., and Rashid Alievich Sunyaev. ``Black holes in binary systems. Observational appearance." Astronomy and Astrophysics 24 (1973): 337-355.
 
  \bibitem{chakrabarti1995}
-Chakrabarti, Sandip K., and Lev G. Titarchuk. "Spectral properties of accretion disks around galactic and extragalactic black holes." arXiv preprint astro-ph/9510005 (1995).
-\bibitem{jmlr}
-Naitzat, Gregory, Andrey Zhitnikov, and Lek-Heng Lim. "Topology of Deep Neural Networks." J. Mach. Learn. Res. 21.184 (2020): 1-40.
+Chakrabarti, Sandip K., and Lev G. Titarchuk. ``Spectral properties of accretion disks around galactic and extragalactic black holes." arXiv preprint astro-ph/9510005 (1995).
 
-%  \bibitem
-%  \url{https://heasarc.gsfc.nasa.gov/docs/xte/xte_public.html}
+ \bibitem{narayan1994}
+ Narayan, Ramesh, and Insu Yi. ``Advection-dominated accretion: Underfed black holes and neutron stars." arXiv preprint astro-ph/9411059 (1994).
+
+ \bibitem{Abramowicz1988}
+Abramowicz, M. A., et al. ``Slim accretion disks." The Astrophysical Journal 332 (1988): 646-658.
+
+\bibitem{rajesh2010}
+Rajesh, S. R., and Banibrata Mukhopadhyay. ``Two-temperature accretion around rotating black holes: a description of the general advective flow paradigm in the presence of various cooling processes to explain low to high luminous sources." Monthly Notices of the Royal Astronomical Society 402.2 (2010): 961-984.
+
+ \bibitem{jmlr}
+Naitzat, Gregory, Andrey Zhitnikov, and Lek-Heng Lim. ``Topology of Deep Neural Networks." J. Mach. Learn. Res. 21.184 (2020): 1-40.
+
+\bibitem{Bandt2002}
+Bandt, Christoph, and Bernd Pompe. ``Permutation entropy: a natural complexity measure for time series." Physical review letters 88.17 (2002): 174102.
+
+\bibitem{Boaretto2021}
+Boaretto, B. R. R., et al. ``Discriminating chaotic and stochastic time series using permutation entropy and artificial neural networks." Scientific reports 11.1 (2021): 1-10.
+
+\bibitem{lacasa2010}
+ Lacasa, Lucas, and Raul Toral. ``Description of stochastic and chaotic series using visibility graphs." Physical Review E 82.3 (2010): 036120.
+
+\bibitem{Brunton2016}
+ Brunton, Steven L., Joshua L. Proctor, and J. Nathan Kutz. ``Discovering governing equations from data by sparse identification of nonlinear dynamical systems." Proceedings of the national academy of sciences 113.15 (2016): 3932-3937.
+
+ \bibitem{xte}
+  RXTE Public Data \url{https://heasarc.gsfc.nasa.gov/docs/xte/xte_public.html}
+
+\bibitem{Adegoke2018}
+Adegoke, Oluwashina, et al. ``Correlating non-linear properties with spectral states of RXTE data: possible observational evidences for four different accretion modes around compact objects." Monthly Notices of the Royal Astronomical Society 476.2 (2018): 1581-1595.
 
 \end{thebibliography}
 
 %https://heasarc.gsfc.nasa.gov/docs/xte/XTE.html
 %https://heasarc.gsfc.nasa.gov/docs/xte/xte_public.html
-
 
 
 \end{document}
