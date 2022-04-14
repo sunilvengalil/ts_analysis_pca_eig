@@ -8,9 +8,13 @@ MIN_EIGEN_VALUE = 10
 MAX_NUM_SAMPLES_TO_TAKE = 5000
 
 def split_series(series):
-    # split into two, compute eigen value of each half, find the ratio of largest to smallest
+    """
+    1. Subtract mean from the time series.
+    1. Split the time series into two equal halves.
+    2. Compute eigenvalue of each half, find the ratio of larger to smaller eigen value.
+    3.
+    """
     series = series - np.mean(series)
-    # print("Mean of entire series", np.mean(series))
     if series.shape[0] % 2 == 0:
         # even
         series_1 = series[0:series.shape[0] // 2]
@@ -19,13 +23,7 @@ def split_series(series):
         series_1 = series[0:series.shape[0] // 2]
         series_2 = series[series_1.shape[0]:-1]
 
-    # e1 = np.mean(series_1)
-    # e2 = np.mean(series_2)
-    #
-    # var1 = np.var(series_1)
-    # var2 = np.var(series_2)
-
-    #  print("var1 converted to float",float(var1))
+    # print("var1 converted to float", float(var1))
     zipped = []
     for i, j in zip(series_1, series_2):
         zipped.append([i, j])
@@ -38,6 +36,12 @@ def split_series(series):
 
 
 def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
+    """
+
+    :param s:
+    :param min_eig_value:
+    :return: A list with elements of the form [eigenvalue_ratio, interval]
+    """
     interval = (0, len(s))
     results = []
     splits_to_process = []
@@ -57,7 +61,6 @@ def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
             splits_to_process.append([interval[0], mid])
             splits_to_process.append([mid, interval[1]])
             num_splits += 1
-    eig_ratio = split_series(s[interval[0]:interval[1]])
 
     while len(splits_to_process) > 0 and num_iter < MAX_ITER:
         interval = splits_to_process.pop()
@@ -108,24 +111,58 @@ def process_time_series(s, min_eig_value):
     return results
 
 
-def plot_eigen_ratio(data, results, max_value, fname, title, y_scale=None):
-    result_step = np.zeros(max_value)
-    for r in results:
+def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, y_scale=None, plot_series=True):
+    """
+    
+    :param data: 
+    :param eigenvalue_ratios: A list of the form [eigenvalue_ratio, interval]
+    :param num_samples: 
+    :param fname: 
+    :param title: 
+    :param y_scale: 
+    :return: 
+    """
+    result_step = np.zeros(num_samples)
+    for r in eigenvalue_ratios:
         result_step[r[1][0]: r[1][1]] = r[0]
-    plt.figure(figsize=(20, 10))
 
-    plt.subplot(211)
+
+    plt.figure(figsize=(10, 8))
+    plt.rc('axes', labelsize=25)
     plt.plot(result_step)
     if y_scale is not None:
         plt.ylim(y_scale)
-
-    plt.ylabel("Ratio of Eigen Value -Largest to Smallest")
-
+    plt.xlabel("Sample Number")
+    plt.ylabel("Eigenvalue ratio")
     plt.title(title)
-    plt.subplot(212)
-    plt.plot(data)
+    plt.savefig(fname, bbox_inches="tight" )
 
-    plt.savefig(fname)
+
+def plot_time_series(data, fname, title, y_scale=None):
+    """
+
+    :param data:
+    :param eigenvalue_ratios: A list of the form [eigenvalue_ratio, interval]
+    :param num_samples:
+    :param fname:
+    :param title:
+    :param y_scale:
+    :return:
+    """
+
+    plt.figure(figsize=(10, 8))
+    plt.rc('axes', labelsize=25)
+    if y_scale is not None:
+        plt.ylim(y_scale)
+    plt.xlabel("Sample Number")
+    plt.ylabel("Eigenvalue ratio")
+    plt.title(title)
+#    plt.subplot(212)
+    plt.plot(data)
+    plt.xlabel("Sample number")
+    plt.ylabel("Photon count rate")
+
+    plt.savefig(fname, bbox_inches="tight")
 
 
 def area_per_unit_length(results, max_value):
@@ -177,6 +214,7 @@ def verify_tsne(data, tsne):
 
 def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_labels, log_axis = False):
     cdict = {1: 'red', 2: 'blue'}
+    mdict = {1: 'o',  2: 'x'}
     plt.figure()
     if log_axis:
         xy = np.log(data)
@@ -184,7 +222,7 @@ def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_la
         xy = data
     for g in np.unique(labels):
         ix = np.where(labels == g)
-        plt.scatter(xy[ix, 0], xy[ix, 1], c=cdict[g], label=legends[g - 1])
+        plt.scatter(xy[ix, 0], xy[ix, 1], c=cdict[g], marker = mdict[g], label=legends[g - 1])
 
     plt.legend()
     plt.title(title)

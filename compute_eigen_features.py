@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import argparse
 from matplotlib import pyplot as plt
-from utils import compute_svd, process_time_series_all, plot_eigen_ratio, area_per_unit_length, verify_tsne, \
+from utils import compute_svd, process_time_series_all, plot_eigen_ratio, plot_time_series, area_per_unit_length, verify_tsne, \
     scatter_plot_2d
 from sklearn.manifold import TSNE
 
@@ -71,10 +71,21 @@ for file in files:
     print(f"Number of samples in {file} {max_value}")
 
 values = defaultdict(list)
-
 for file_name in data_dict.keys():
+    print(f"{pca_results_folder}/{file_name}.jpg")
+
     results, num_splits, num_iters = process_time_series_all(np.asarray(data_dict[file_name]),min_eig_value=MIN_EIGEN_VALUE)
-    plot_eigen_ratio(data_dict[file_name], results, max_value_dict[file_name], f"{pca_results_folder}/{file_name}.jpg", title=f"{file_name}: Eigen ratio greater than {MIN_EIGEN_VALUE}")
+    title_string = f"{file_name}: Eigen ratio greater than {MIN_EIGEN_VALUE}"
+    plot_eigen_ratio(data_dict[file_name],
+                     results,
+                     max_value_dict[file_name],
+                     f"{pca_results_folder}/{file_name}_eig.jpg",
+                     title=None,
+                     plot_series=False)
+
+    plot_time_series(data_dict[file_name],
+                     f"{pca_results_folder}/{file_name}.jpg",
+                     title=None)
     svd = compute_svd(data_dict[file_name], M, tau)
     v_mat = svd[2]
     plt.figure()
@@ -101,7 +112,7 @@ for file_name in data_dict.keys():
 
 # df = pd.DataFrame(values, columns=["File Name", "Maximum Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio", "Area Under Eigen Ratio"])
 df = pd.DataFrame(values)
-df["Betti descriptor"] = []
+# df["Betti descriptor"] = []
 
 df.to_csv(f"{pca_results_folder}/features.csv", index=False)
 pca_features = df[["Max Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]].values
