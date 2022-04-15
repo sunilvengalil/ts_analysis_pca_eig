@@ -98,7 +98,7 @@ D = U \Sigma V^T.
 \end{equation}
  We observe the plot of the top two right singular vectors (E1 vs E2). For non-stochastic time series this plot is expected to show a specific pattern (attractor behavior, where the plot follows a trajectory leaving a well-defined gap). On the other hand, for stochastic time series, this behavior is absent.
 
-The characteristics of the E1 vs E2 plot are captured using Betti numbers \cite{jmlr}. Betti number descriptor for a $d$-dimensional manifold is a vector of $d$ integers which is represented as $\beta = (\beta_0, \beta_1 \mathellipsis \beta_{d-1})$. Here the E1 vs E2 plots are 2-d manifolds, which are described by  $\beta=(\beta_{0}, \beta_{1}$).  $\beta_{0}$ is the number of blobs (connected components) while $\beta_1$ is the number of $1$-d holes. For a stochastic time series the values of $\beta_{0}$  and $\beta_1$ are expected to be 1 and 0 respectively, as the E1 vs E2 plot consists of one single blob. However for a non-stochastic time series, we observed that, the value of $\beta_{0}$ can be greater than 1 and the value of $\beta_1$ is greater than zero due to the attractor behavior.
+The characteristics of the E1 vs E2 plot are captured using Betti numbers \cite{jmlr}. Betti number descriptor for a $d$-dimensional manifold is a vector of $d$ integers which is represented as $\beta = (\beta_0, \beta_1 \mathellipsis \beta_{d-1})$. Here the E1 vs E2 plots are 2-d manifolds, which are described by  $\beta=(\beta_{0}, \beta_{1}$).  $\beta_{0}$ is the number of blobs (connected components) while $\beta_1$ is the number of $1$-d holes. For a stochastic time series the values of $\beta_{0}$  and $\beta_1$ are expected to be 1 and 0 respectively, as the E1 vs E2 plot consists of one single blob. However for a non-stochastic time series, we observed that, the value of $\beta_{0}$ can be greater than 1 and the value of $\beta_1$ is always greater than 0 due to the attractor behavior.
 
 
 \subsection{PCA Based approach}
@@ -156,9 +156,9 @@ From SVD decomposition of the data matrix, we plot the top 2 right singular vect
 
 \begin{figure*}
    \centering
-   \subfigure[]{\includegraphics[width=0.28\textwidth]{sac_ascf_kappa_e1_vs_e2_m_2_tau_50.jpg}}
-   \subfigure[]{\includegraphics[width=0.28\textwidth]{sac_ascf_mu_e1_vs_e2_m_4_tau_80.jpg}}
-   \subfigure[]{\includegraphics[width=0.28\textwidth]{sac_ascf_rho_e1_vs_e2_m_8_tau_20.jpg}}
+   \subfigure[]{\includegraphics[width=0.28\textwidth]{images/sac_ascf_kappa_e1_vs_e2_m_2_tau_50.jpg}}
+   \subfigure[]{\includegraphics[width=0.28\textwidth]{images/sac_ascf_mu_e1_vs_e2_m_4_tau_80.jpg}}
+   \subfigure[]{\includegraphics[width=0.28\textwidth]{images/sac_ascf_rho_e1_vs_e2_m_8_tau_20.jpg}}
    \caption{Plot of E1 vs E2 (top two right singular vectors) of data matrix for  representatives from non-stochastic time series of \textit{GRS 1915 + 105}. The series are $\kappa$, $\mu$ and $\rho$ from left to right.}
    \label{svd_e1e2_nonstochastic}
 \end{figure*}
@@ -172,9 +172,9 @@ From SVD decomposition of the data matrix, we plot the top 2 right singular vect
 
 \begin{figure*}
    \centering
-   \subfigure[]{\includegraphics[width=0.28\textwidth]{phi_e1_vs_e2_m_2_tau_20_S.jpg}}
-   \subfigure[]{\includegraphics[width=0.28\textwidth]{khai_e1_vs_e2_m_2_S.jpg}}
-   \subfigure[]{\includegraphics[width=0.28\textwidth]{gamma_e1_vs_e2_m_2_tau_20_S.jpg}}
+   \subfigure[]{\includegraphics[width=0.28\textwidth]{images/sac_ascf_phi_e1_vs_e2_m_2_tau_20.jpg}}
+   \subfigure[]{\includegraphics[width=0.28\textwidth]{images/sac_ascf_kai_e1_vs_e2_m_2_tau_20.jpg}}
+   \subfigure[]{\includegraphics[width=0.28\textwidth]{images/sac_ascf_gamma_e1_vs_e2_m_2_tau_20.jpg}}
 \caption{Plot of E1 vs E2 (top two right singular vectors) of data matrix for  representatives from  stochastic time series  of \textit{GRS 1915 + 105}. The series are $\phi$, $\chi$ and $\gamma$ from left to right.}
    \label{svd_e1e2_stochastic}
 \end{figure*}
@@ -231,7 +231,7 @@ $\theta$  & 11 &  88 & F & (3, 2) & Non-stochastic & 577 & 778 & 58&Non-stochast
 \hline
 $\lambda$ &  54 & 46 & F & (1,3) & Non-stochastic & 600 & 6782 & 314 & Non-stochastic & Yes \\
 \hline
-$\kappa$ &  59 & 51 & F & (1,2) & Non-stochastic & 700 & 5199 & 144 & Non-stochastic &  Yes \\
+$\kappa$ &  59 & 51 & F & (1,3) & Non-stochastic & 700 & 5199 & 144 & Non-stochastic &  Yes \\
 \hline
 $\mu$  & 56 & 41 & F & (1,1) & Non-stochastic & 50 & 51 & 12 & Non-stochastic & Yes \\
 \hline

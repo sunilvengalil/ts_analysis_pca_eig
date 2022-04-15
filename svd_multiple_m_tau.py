@@ -5,7 +5,7 @@ from utils import compute_svd, process_time_series_all
 import os
 import numpy as np
 tau_array = [20]
-M_array = [8 ]
+M_array = [2]
 max_num_samples_to_take = 5000
 MIN_EIGEN_VALUE = 10
 
