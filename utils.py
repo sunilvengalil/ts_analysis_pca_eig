@@ -126,10 +126,13 @@ def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, 
     for r in eigenvalue_ratios:
         result_step[r[1][0]: r[1][1]] = r[0]
 
-
     plt.figure(figsize=(10, 8))
     plt.rc('axes', labelsize=25)
+    plt.rc('xtick', labelsize=25)
+    plt.rc('ytick', labelsize=25)
+
     plt.plot(result_step)
+    plt.xticks(range(0, 35000, 10000))
     if y_scale is not None:
         plt.ylim(y_scale)
     plt.xlabel("Sample Number")
@@ -152,16 +155,15 @@ def plot_time_series(data, fname, title, y_scale=None):
 
     plt.figure(figsize=(10, 8))
     plt.rc('axes', labelsize=25)
+    plt.rc('xtick', labelsize=25)
+    plt.rc('ytick', labelsize=25)
     if y_scale is not None:
         plt.ylim(y_scale)
-    plt.xlabel("Sample Number")
-    plt.ylabel("Eigenvalue ratio")
-    plt.title(title)
-#    plt.subplot(212)
     plt.plot(data)
+    plt.xticks(range(0, 35000, 10000))
     plt.xlabel("Sample number")
     plt.ylabel("Photon count rate")
-
+    plt.title(title)
     plt.savefig(fname, bbox_inches="tight")
 
 

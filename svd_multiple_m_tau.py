@@ -4,8 +4,8 @@ from matplotlib import pyplot as plt
 from utils import compute_svd, process_time_series_all
 import os
 import numpy as np
-tau_array = [8,9,10,11,12,13,14]
-M_array = [30,31,32,33,34,35,36,37,38,39,40]
+tau_array = [20]
+M_array = [8 ]
 max_num_samples_to_take = 5000
 MIN_EIGEN_VALUE = 10
 
@@ -19,7 +19,7 @@ MIN_EIGEN_VALUE = 10
 file_name = "time_series"
 shuffle = False
 
-time_series = "theta"
+time_series = "kappa"
 if shuffle:
     svd_results_folder = f"svd_results_{time_series}_m_{M_array[0]}_{M_array[-1]}_tau_{tau_array[0]}_{tau_array[-1]}_shuffled_v2"
 else:
@@ -38,7 +38,7 @@ else:
 data_dict = {}
 max_value_dict = {}
 print(files)
-for file in files[1:]:
+for file in files:
     print(file)
     with open(file_name + "/" + file, "r") as fp:
         text = fp.readlines()
@@ -54,6 +54,17 @@ for file in files[1:]:
 l = [k for k in data_dict.keys()]
 print(l)
 values = defaultdict(list)
+import matplotlib
+
+matplotlib.rc('axes', labelsize=25, )
+matplotlib.rc('xtick', labelsize=25, )
+matplotlib.rc('ytick', labelsize=25, )
+
+# font = {'family' : 'normal',
+#         'weight' : 'bold',
+#         'size'   : 22}
+# matplotlib.rc('font', **font)
+
 for file_name in data_dict.keys():
     for M in M_array:
         for tau in tau_array:
@@ -65,8 +76,8 @@ for file_name in data_dict.keys():
             svd = compute_svd(data_dict[file_name], M, tau)
             v_mat = svd[2]
             plt.figure()
-            plt.plot(v_mat[0], v_mat[1])
-            plt.xlabel("E1")
-            plt.ylabel("E2")
-            plt.savefig(f"{svd_results_folder}/{file_name}_e1_vs_e2_m_{M}_tau_{tau}.jpg")
+            plt.scatter(v_mat[0], v_mat[1])
+            plt.xlabel("E1", weight="bold")
+            plt.ylabel("E2", weight="bold")
+            plt.savefig(f"{svd_results_folder}/{file_name}_e1_vs_e2_m_{M}_tau_{tau}.jpg", bbox_inches="tight")
 
