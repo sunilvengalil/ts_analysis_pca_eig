@@ -63,9 +63,11 @@ def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
             num_splits += 1
 
     while len(splits_to_process) > 0 and num_iter < MAX_ITER:
+        print("Length of split to proecess",len(splits_to_process))
         interval = splits_to_process.pop()
         eig_ratio = split_series(s[interval[0]:interval[1]])
         #        if eig_ratio > min_eig_value:
+        print(eig_ratio, interval)
         results.append((eig_ratio, interval))
         if interval[1] - interval[0] > MIN_INTERVAL_SIZE:
             mid = (interval[1] + interval[0]) // 2
@@ -111,11 +113,10 @@ def process_time_series(s, min_eig_value):
     return results
 
 
-def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, y_scale=None, plot_series=True):
+def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, y_scale=None, xticks=None):
     """
-    
     :param data: 
-    :param eigenvalue_ratios: A list of the form [eigenvalue_ratio, interval]
+    :param eigenvalue_ratios: A list of the form [eigenvalue_ratio, interval] where interval is tuple of the form (from_index, to_index)
     :param num_samples: 
     :param fname: 
     :param title: 
@@ -132,7 +133,8 @@ def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, 
     plt.rc('ytick', labelsize=25)
 
     plt.plot(result_step)
-    plt.xticks(range(0, 35000, 10000))
+    if xticks is not None:
+        plt.xticks(xticks)
     if y_scale is not None:
         plt.ylim(y_scale)
     plt.xlabel("Sample Number")
@@ -141,7 +143,7 @@ def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, 
     plt.savefig(fname, bbox_inches="tight" )
 
 
-def plot_time_series(data, fname, title, y_scale=None):
+def plot_time_series(data, fname, title, y_scale=None, xticks=None):
     """
 
     :param data:
@@ -160,7 +162,8 @@ def plot_time_series(data, fname, title, y_scale=None):
     if y_scale is not None:
         plt.ylim(y_scale)
     plt.plot(data)
-    plt.xticks(range(0, 35000, 10000))
+    if xticks is not None:
+        plt.xticks(xticks)
     plt.xlabel("Sample number")
     plt.ylabel("Photon count rate")
     plt.title(title)
@@ -215,6 +218,7 @@ def verify_tsne(data, tsne):
 
 
 def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_labels, log_axis = False):
+    print("Entire data",data)
     cdict = {1: 'red', 2: 'blue'}
     mdict = {1: 'o',  2: 'x'}
     plt.figure()
@@ -222,8 +226,10 @@ def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_la
         xy = np.log(data)
     else:
         xy = data
+    print(labels)
     for g in np.unique(labels):
         ix = np.where(labels == g)
+        print(g, xy)
         plt.scatter(xy[ix, 0], xy[ix, 1], c=cdict[g], marker = mdict[g], label=legends[g - 1])
 
     plt.legend()
@@ -236,4 +242,4 @@ def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_la
 
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
-    plt.savefig(f"{out_folder}/{file_name}.jpg")
+    plt.savefig(f"{out_folder}/{file_name}.jpg", bbox_inches="tight")
