@@ -1,4 +1,6 @@
 import numpy as np
+import sklearn
+from sklearn.decomposition import PCA
 from matplotlib import pyplot as plt
 import statistics
 
@@ -197,11 +199,31 @@ def compute_svd(data, M, tau, max_num_samples_to_take = MAX_NUM_SAMPLES_TO_TAKE)
     for i in range(M):
         shifted_for_svd[i] = data[i * tau:][0:num_samples_to_take]
     shifted_for_svd = np.asarray(shifted_for_svd)
+
     #     print(shifted_for_svd.shape)
 
     #     print(len(shifted_for_svd[0]))
     svd = np.linalg.svd(shifted_for_svd)
     return svd
+
+
+def compute_pca_on_embedded_vecors(data, M, tau, max_num_samples_to_take=MAX_NUM_SAMPLES_TO_TAKE):
+    num_samples_to_take = min(data.shape[0] - M * tau, max_num_samples_to_take)
+
+    shifted_for_svd = np.zeros((M, num_samples_to_take))
+#    shifted_for_svd
+    for i in range(M):
+        shifted_for_svd[i] = data[i * tau:][0:num_samples_to_take]
+    shifted_for_svd = np.asarray(shifted_for_svd)
+
+    # print(shifted_for_svd.shape)
+    # print(len(shifted_for_svd[0]))
+#     eigs,_ = np.linalg.eig(np.matmul(shifted_for_svd, np.transpose(shifted_for_svd)))
+    pca = PCA(M)
+    pca.fit(np.transpose(shifted_for_svd))
+
+    return  pca.singular_values_
+
 
 def verify_tsne(data, tsne):
     data_distance = np.zeros((data.shape[0], data.shape[0]))
