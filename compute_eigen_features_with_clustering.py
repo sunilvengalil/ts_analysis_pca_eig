@@ -31,6 +31,7 @@ from sklearn.cluster import KMeans
 # print(args)
 
 # file_names = ["Delta", "Sac_ascf_theta", "Sac_ascf_beta", "Sac_ascf_kai", "Lorenz", "Lordata", "Sac_ascf_lambda", "Kappa", "Sac_ascf_phi", "Sac_ascf_gamma", "Sac_Ascf_Alpha", "Sac_ascf_mu", "Sac_ascf_nu", "Sac_ascf_rho"]
+
 file_names = ["Delta", "Theta", "Beta", "Kai", "Lorenz", "Lordata", "Lambda", "Kappa", "Phi", "Gamma", "Alpha", "Mu", "Nu", "Rho"]
 ground_truths = ["STOCHASTIC", "NON-ST", "NON-ST", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST", "STOCHASTIC", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST"]
 gt_dictionary = {file_name:ground_truth for file_name, ground_truth in zip(file_names, ground_truths) }
@@ -44,8 +45,8 @@ if shuffle:
     svd_results_folder = f"svd_results_m_{M}_tau_{tau}_shuffled_v2"
     pca_results_folder = f"pca_results_m_{M}_tau_{tau}_shuffled_v2"
 else:
-    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_v2_9th_june"
-    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_v2_9th_june"
+    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_v2_15th_june"
+    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_v2_15th_june"
 
 if not os.path.isdir(svd_results_folder):
     os.mkdir(svd_results_folder)
@@ -70,13 +71,30 @@ for file in files:
     max_value = len(data_dict[file])
     max_value_dict[file] = max_value
     print(f"Number of samples in {file} {max_value}")
+
 min_eigen_values = list(range(5, 20))
 values = defaultdict(list)
-scores=defaultdict(list)
+scores = defaultdict(list)
 min_eig_ratio_dict: Dict[str, Dict[int, int]] = defaultdict(str)  # {timeseries_name, {threshold:value}}
 max_eig_ratio_dict: Dict[str, Dict[int, int]] = defaultdict(str)  # {threshold:value}
 var_eig_ratio_dict: Dict[str, Dict[int, int]] = defaultdict(str)  # {threshold:value}
 normalized_area_dict: Dict[int, int] = dict()  # {threshold:value}
+
+i = 0
+ground_truth = [None] * len(files)
+
+for file_name in data_dict.keys():
+    key = file_name.rsplit(".",  1)[0]
+    if key.startswith("sac_ascf_"):
+        key = key.replace("sac_ascf_", "")
+    ground_truth[i] = gt_dictionary[key.capitalize()]
+    i += 1
+
+distinct_labels = ["NON-STOCHASTIC", "STOCHASTIC"]
+labels = [1] * len(files)
+for i, gt in enumerate(ground_truth):
+    if gt == "STOCHASTIC":
+        labels[i] = 2
 
 for min_eigen_value in min_eigen_values:
     for file_name in data_dict.keys():
@@ -99,15 +117,31 @@ for min_eigen_value in min_eigen_values:
         data[i][0] = var_eig_ratio_dict[key][min_eigen_value]
         data[i][1] = normalized_area_dict[key][min_eigen_value]
         i += 1
+    # Plot scatter plots
+    features = ["Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]
+    scatter_plot_2d(data,
+                    labels,
+                    pca_results_folder,
+                    f"variance_area_key_{min_eigen_value}",
+                    title=f"Variance and  Area Eigen Ratio Threshold = {min_eigen_value}" ,
+                    legends= distinct_labels,
+                    axis_labels=features,
+                    log_axis=True)
 
     model = KMeans(2)
     model.fit(data)
     scores["Threshold"].append(min_eigen_value)
-    scores["Silhouette_score"].append(silhouette_score(data, model.labels_, metric="euclidean") )
+    scores["K means silhouette score"].append(silhouette_score(data, model.labels_, metric="euclidean") )
 df = pd.DataFrame(scores)
 df.to_csv(f"{pca_results_folder}/threshold_vs_silhoutte_score.csv", index=False)
 
-# values["Timeseries"].append(key.capitalize())
+plt.figure()
+plt.plot(scores["Threshold"], scores["K means silhouette score"])
+plt.xlabel("Eigen Ratio threshold")
+plt.ylabel("K means silhouette score")
+plt.savefig(f"{pca_results_folder}/threshold_vs_silhoutte_score.jpg")
+
+# values["Time series"].append(key.capitalize())
 # values["Ground Truth"].append(gt_dictionary[key.capitalize()])
 # values["Max Eigen Ratio"].append(max_eig_ratio)
 # values["Variance of Eigen Ratio"].append(var_eig_ratio)
@@ -120,9 +154,9 @@ df.to_csv(f"{pca_results_folder}/threshold_vs_silhoutte_score.csv", index=False)
 
 # df.to_csv(f"{pca_results_folder}/features.csv", index=False)
 
-#pca_features = df[["Max Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]].values
+# pca_features = df[["Max Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]].values
 
-#tsne = TSNE(perplexity=4).fit_transform(pca_features)
+# tsne = TSNE(perplexity=4).fit_transform(pca_features)
 # verify_tsne(pca_features, tsne)
 # distinct_labels = ["NON-STOCHASTIC", "STOCHASTIC"]
 # labels = [1] * len(files)
@@ -152,10 +186,4 @@ df.to_csv(f"{pca_results_folder}/threshold_vs_silhoutte_score.csv", index=False)
 #                 axis_labels=features,
 #                 log_axis=True)
 #
-# features = ["Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio"]
-# scatter_plot_2d(df[features].values, labels, pca_results_folder, "variance_area",
-#                 title="Variance and  Area",
-#                 legends= distinct_labels,
-#                 axis_labels=features,
-#                 log_axis=True)
 

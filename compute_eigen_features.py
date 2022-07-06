@@ -6,10 +6,10 @@ import os
 import pandas as pd
 import argparse
 from matplotlib import pyplot as plt
-from utils import compute_svd, process_time_series_all, plot_eigen_ratio, plot_time_series, area_per_unit_length, verify_tsne, \
-    scatter_plot_2d
+from utils import compute_svd, process_time_series_all, plot_eigen_ratio, plot_time_series, area_per_unit_length, \
+    verify_tsne, \
+    scatter_plot_2d, compute_pca_on_embedded_vecors
 from sklearn.manifold import TSNE
-
 MIN_EIGEN_VALUE = 10
 
 # parser = argparse.ArgumentParser(description='Usage python3 compute_eigen_features.py --args.')
@@ -30,19 +30,17 @@ file_names = ["Delta", "Theta", "Beta", "Kai", "Lorenz", "Lordata", "Lambda", "K
 ground_truths = ["STOCHASTIC", "NON-ST", "NON-ST", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST", "STOCHASTIC", "STOCHASTIC", "NON-ST", "NON-ST", "NON-ST", "NON-ST"]
 gt_dictionary = {file_name:ground_truth for file_name, ground_truth in zip(file_names, ground_truths) }
 
-
-file_name = "time_series"
-M = 2
+file_name = "time_series_all"
+M = 10
 tau = 20
 shuffle = False
-
 
 if shuffle:
     svd_results_folder = f"svd_results_m_{M}_tau_{tau}_shuffled_v2"
     pca_results_folder = f"pca_results_m_{M}_tau_{tau}_shuffled_v2"
 else:
-    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_v2"
-    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_v2"
+    svd_results_folder = f"svd_results_m_{M}_tau_{tau}_v2_6th_june"
+    pca_results_folder = f"pca_results_m_{M}_tau_{tau}_v2_6th_june"
 
 if not os.path.isdir(svd_results_folder):
     os.mkdir(svd_results_folder)
@@ -55,7 +53,6 @@ if os.path.isfile(file_name):
 else:
     files = os.listdir(file_name)
 
-
 data_dict = {}
 max_value_dict = {}
 for file in files:
@@ -64,7 +61,6 @@ for file in files:
     ts = np.asarray([float(d) for d in text])
     if shuffle:
         np.random.shuffle(ts)
-
     data_dict[file] = ts
     max_value = len(data_dict[file])
     max_value_dict[file] = max_value
@@ -76,12 +72,12 @@ for file_name in data_dict.keys():
 
     results, num_splits, num_iters = process_time_series_all(np.asarray(data_dict[file_name]),min_eig_value=MIN_EIGEN_VALUE)
     title_string = f"{file_name}: Eigen ratio greater than {MIN_EIGEN_VALUE}"
-    plot_eigen_ratio(data_dict[file_name],
-                     results,
-                     max_value_dict[file_name],
-                     f"{pca_results_folder}/{file_name}_eig.jpg",
-                     title=None,
-                     plot_series=False)
+    # plot_eigen_ratio(data_dict[file_name],
+    #                  results,
+    #                  max_value_dict[file_name],
+    #                  f"{pca_results_folder}/{file_name}_eig.jpg",
+    #                  title=None,
+    #                  plot_series=False)
 
     plot_time_series(data_dict[file_name],
                      f"{pca_results_folder}/{file_name}.jpg",
@@ -104,11 +100,13 @@ for file_name in data_dict.keys():
         key = key.replace("sac_ascf_", "")
 
     # insert into dictionary for creating dataframe
-    values["Timeseries"].append(key.capitalize())
+    values["Time series"].append(key.capitalize())
     values["Ground Truth"].append(gt_dictionary[key.capitalize()])
     values["Max Eigen Ratio"].append(max_eig_ratio)
     values["Variance of Eigen Ratio"].append(var_eig_ratio)
-    values["Normalized Area Under Eigen Ratio"].append(normalized_area)
+    values["Normalized Area Under Eigen Ratio"].append(normalized_area )
+    eig = compute_pca_on_embedded_vecors(data_dict[file_name], M, tau )
+    values["Eigen Ratio on Embedded Vectors"].append(eig[0] /eig[-1] )
 
 # df = pd.DataFrame(values, columns=["File Name", "Maximum Eigen Ratio", "Variance of Eigen Ratio", "Normalized Area Under Eigen Ratio", "Area Under Eigen Ratio"])
 df = pd.DataFrame(values)

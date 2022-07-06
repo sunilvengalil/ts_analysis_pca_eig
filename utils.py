@@ -39,7 +39,6 @@ def split_series(series):
 
 def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
     """
-
     :param s:
     :param min_eig_value:
     :return: A list with elements of the form [eigenvalue_ratio, interval]
@@ -48,7 +47,6 @@ def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
     results = []
     splits_to_process = []
     num_iter = 0
-
     num_splits = 0
 
     eig_ratio = split_series(s[interval[0]:interval[1]])
@@ -82,40 +80,12 @@ def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
     return results, num_splits, num_iter
 
 
-def process_time_series(s, min_eig_value):
-    interval = (0, len(s))
-    results = []
-    splits_to_process = []
-    num_iter = 0
 
-    eig_ratio = split_series(s[interval[0]:interval[1]])
-    print("eig_ratio", eig_ratio)
-
-    if eig_ratio > min_eig_value:
-        results.append((eig_ratio, interval))
-
-    if interval[1] - interval[0] > MIN_INTERVAL_SIZE:
-        mid = (interval[1] + interval[0]) // 2
-        if eig_ratio < min_eig_value:
-            splits_to_process.append([interval[0], mid])
-            splits_to_process.append([mid, interval[1]])
-    eig_ratio = split_series(s[interval[0]:interval[1]])
-    while len(splits_to_process) > 0 and num_iter < MAX_ITER:
-        # print("Inside the loop", eig_ratio, splits_to_process)
-        interval = splits_to_process.pop()
-        eig_ratio = split_series(s[interval[0]:interval[1]])
-        if eig_ratio > min_eig_value:
-            results.append((eig_ratio, interval))
-        if interval[1] - interval[0] > MIN_INTERVAL_SIZE:
-            mid = (interval[1] + interval[0]) // 2
-            if eig_ratio < min_eig_value:
-                splits_to_process.append([interval[0], mid])
-                splits_to_process.append([mid, interval[1]])
-        num_iter = num_iter + 1
-    return results
-
-
-def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, y_scale=None, xticks=None):
+def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname,
+                     title = None,
+                     y_scale=None,
+                     xticks=None,
+                     x_scale=None):
     """
     :param data: 
     :param eigenvalue_ratios: A list of the form [eigenvalue_ratio, interval] where interval is tuple of the form (from_index, to_index)
@@ -129,25 +99,30 @@ def plot_eigen_ratio(data, eigenvalue_ratios, num_samples, fname, title = None, 
     for r in eigenvalue_ratios:
         result_step[r[1][0]: r[1][1]] = r[0]
 
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(20, 8))
     plt.rc('axes', labelsize=25)
     plt.rc('xtick', labelsize=25)
     plt.rc('ytick', labelsize=25)
 
+   # plt.subplots(211)
     plt.plot(result_step)
     if xticks is not None:
         plt.xticks(xticks)
     if y_scale is not None:
         plt.ylim(y_scale)
-    plt.xlabel("Sample Number")
-    plt.ylabel("Eigenvalue ratio")
+    if x_scale is not None:
+        plt.xlim(x_scale)
+    #plt.xlabel("Sample Number")
+    #plt.ylabel("Eigenvalue ratio")
     plt.title(title)
+
+    # plt.subplots(212)
+    # plt.plot(data)
     plt.savefig(fname, bbox_inches="tight" )
 
 
-def plot_time_series(data, fname, title, y_scale=None, xticks=None):
+def plot_time_series(data, fname, title, y_scale=None, xticks=None, x_scale=None):
     """
-
     :param data:
     :param eigenvalue_ratios: A list of the form [eigenvalue_ratio, interval]
     :param num_samples:
@@ -163,6 +138,8 @@ def plot_time_series(data, fname, title, y_scale=None, xticks=None):
     plt.rc('ytick', labelsize=25)
     if y_scale is not None:
         plt.ylim(y_scale)
+    if x_scale is not None:
+        plt.xlim(x_scale)
     plt.plot(data)
     if xticks is not None:
         plt.xticks(xticks)
@@ -239,7 +216,8 @@ def verify_tsne(data, tsne):
     print(tsne_distance)
 
 
-def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_labels, log_axis = False):
+def scatter_plot_2d(data: dict,
+                    labels, out_folder, file_name, title=None, legends=None, axis_labels=None, log_axis = False):
     print("Entire data",data)
     cdict = {1: 'red', 2: 'blue'}
     mdict = {1: 'o',  2: 'x'}
@@ -252,6 +230,7 @@ def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_la
     for g in np.unique(labels):
         ix = np.where(labels == g)
         print(g, xy)
+        print(xy[ix, 0], xy[ix, 1], cdict[g], mdict[g], legends)
         plt.scatter(xy[ix, 0], xy[ix, 1], c=cdict[g], marker = mdict[g], label=legends[g - 1])
 
     plt.legend()
@@ -265,3 +244,4 @@ def scatter_plot_2d(data, labels, out_folder, file_name, title, legends, axis_la
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.savefig(f"{out_folder}/{file_name}.jpg", bbox_inches="tight")
+    print(" Ploted scatter plot")

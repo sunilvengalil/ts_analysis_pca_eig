@@ -83,7 +83,7 @@ Utility of the proposed approach is illustrated by comparing the results with pr
 \section{Related Work}
 Several groups have worked on distinguishing between stochastic and non-stochastic time series. The idea of utilizing Permutation Entropy (PE) to determine the complexity measure of a time series was explored in \cite{Bandt2002}. In the work reported in \cite{Boaretto2021}, PE was used to parameterize a given time series  followed by classification using  Neural Network. The paper explored the idea of utilizing PE of a time series to determine if it is strongly correlated with known stochastic signals (noise).   The claim was that for non-stochastic signals the deviation of the parameter is relatively large as compared to that of the parameter of a stochastic signal. Another set of reported studies are based on  graph theory. In the work reported in \cite{lacasa2010}, the authors have utilized the horizontal visibility algorithm in order to distinguish between stochastic and non-stochastic processes. A recent work, reported in \cite{Silva2022}, mapped time series into  graphs and computed various topological properties, which they called \textit{NetF}, capturing  measures such as centrality, distance, connectivity etc. PCA was applied on the \textit{NetF} feature matrix and clustering was performed on the principal components.
 
- In the approach outlined in \cite{Brunton2016}, the authors combined the idea of sparsity and machine learning with non-linear dynamical systems, in order to determine the governing dynamics. Sparse regression was used to determine the fewest terms in the equations that govern the dynamics of the phenomenon. The user-defined dictionary of basis functions consists of well-known functions such as polynomials, trigonometric functions and exponentials. However, the optimal choice of dictionary for a specific choice of problem remains a challenge.
+In the approach outlined in \cite{Brunton2016}, the authors combined the idea of sparsity and machine learning with non-linear dynamical systems, in order to determine the governing dynamics. Sparse regression was used to determine the fewest terms in the equations that govern the dynamics of the phenomenon. The user-defined dictionary of basis functions consists of well-known functions such as polynomials, trigonometric functions and exponentials. However, the optimal choice of dictionary for a specific choice of problem remains a challenge.
 
 In this work, we propose to utilize classical matrix based methods which do not require any assumptions about the underlying phenomenon.
 
@@ -111,7 +111,8 @@ Consider a time series consisting of $n$ values  $z_1, z_2 \mathellipsis z_n$. W
 \item Compute covariance matrix, $C$,  by treating the samples in two halves as $\floor*{\frac{n}{2}}$ observations of two dimensional vectors.
 \item Find eigenvalues of $C$, $\lambda_1$ and $\lambda_2$; the eigenvalue ratio is computed as  $\lambda_1/\lambda_2$ where $\lambda_1 \ > \lambda_2$ (eigenvalues of a covariance matrix are real).
 \end{itemize}
-If the eigenvalue ratio for an interval is less than a predefined threshold (empirically determined as 10 for the given dataset), the interval is split into two sub-intervals of equal size and the eigenvalue ratio for each sub-interval is computed. The process is repeated as long as the length of the sub-interval is greater than a predefined number of samples.
+
+If the eigenvalue ratio for an interval is less than a  threshold, a hyper-parameter dependent on the dataset (empirically determined as 9 for the given dataset using the procedure given at the end of this section), the interval is split into two sub-intervals of equal size and the eigenvalue ratio for each sub-interval is computed. The process is repeated as long as the length of the sub-interval is greater than a predefined number of samples.
 
 Using PCA analysis we have derived the following three features for each time series:
 \begin{itemize}
@@ -119,6 +120,14 @@ Using PCA analysis we have derived the following three features for each time se
 \item Variance of eigenvalue ratio (VAR): This is the variance of the eigenvalue ratios of covariance matrices across sub-interval in the entire time series.
 \item Area under the eigenvalue ratio curve (Area): This measure captures the area under the curve of the eigenvalue ratio for the entire time series.
 \end{itemize}
+
+We ran multiple experiments with different thresholds and clustered the 14 different time series using the two features VAR and Area and used the silhouette score to measure the quality of clusters formed. Figure \ref{fig:threshold_vs_silhoutte_score} shows a plot of silhouette score Vs threshold. It is evident from this figure that the score peaks at a threshold value of 9.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\linewidth]{images/threshold_vs_silhoutte_score.jpg}
+\caption{Graph showing the k-means silhoutte score as a function of threshold value used to determine minimum eigen ratio described in the algorithm for computing PCA features. It is observed that the silhouette score peaks at a threshold value of 9. }
+\label{fig:threshold_vs_silhoutte_score}
+\end{figure}
 
 \subsection{Data used}
 The proposed approaches are illustrated on the publicly available data of \textit{GRS 1915 + 105} taken from website \cite{xte}. 12 distinct classes of time series are utilized from the available data. All these time series are re-sampled with a sampling interval of 0.1 second. These datasets  were  also used in the work reported in \cite{Adegoke2018}, where the authors use CI based approaches, leading us to be able to compare our obtained results with theirs. Figures \ref{phi_ts} and \ref{theta_ts} show a representative time series of stochastic and non-stochastic  nature respectively.
@@ -156,12 +165,12 @@ From SVD decomposition of the data matrix, we plot the top 2 right singular vect
 %\end{figure*}
 
 \begin{figure*}
-  \centering
-  \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_kappa_e1_vs_e2_m_2_tau_50.jpg}}
-  \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_mu_e1_vs_e2_m_4_tau_80.jpg}}
-  \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_rho_e1_vs_e2_m_8_tau_20.jpg}}
-  \caption{Plot of E1 vs E2 (top two right singular vectors) of data matrix for  representatives from non-stochastic time series of \textit{GRS 1915 + 105}. The series are $\kappa$, $\mu$ and $\rho$ from left to right.}
-  \label{svd_e1e2_nonstochastic}
+ \centering
+ \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_kappa_e1_vs_e2_m_2_tau_50.jpg}}
+ \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_mu_e1_vs_e2_m_4_tau_80.jpg}}
+ \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_rho_e1_vs_e2_m_8_tau_20.jpg}}
+ \caption{Plot of E1 vs E2 (top two right singular vectors) of data matrix for  representatives from non-stochastic time series of \textit{GRS 1915 + 105}. The series are $\kappa$, $\mu$ and $\rho$ from left to right.}
+ \label{svd_e1e2_nonstochastic}
 \end{figure*}
 
 %\begin{figure*}[ht]
@@ -172,12 +181,12 @@ From SVD decomposition of the data matrix, we plot the top 2 right singular vect
 %\end{figure*}
 
 \begin{figure*}
-  \centering
-  \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_phi_e1_vs_e2_m_2_tau_20.jpg}}
-  \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_kai_e1_vs_e2_m_2_tau_20.jpg}}
-  \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_gamma_e1_vs_e2_m_2_tau_20.jpg}}
+ \centering
+ \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_phi_e1_vs_e2_m_2_tau_20.jpg}}
+ \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_kai_e1_vs_e2_m_2_tau_20.jpg}}
+ \subfigure[]{\includegraphics[width=0.25\textwidth]{images/sac_ascf_gamma_e1_vs_e2_m_2_tau_20.jpg}}
 \caption{Plot of E1 vs E2 (top two right singular vectors) of data matrix for  representatives from  stochastic time series  of \textit{GRS 1915 + 105}. The series are $\phi$, $\chi$ and $\gamma$ from left to right.}
-  \label{svd_e1e2_stochastic}
+ \label{svd_e1e2_stochastic}
 \end{figure*}
 
 
@@ -256,10 +265,10 @@ $\chi$  & 09 & 89 & S & (1,0)& Stochastic & 5.6 & 0.25 & 6.05 & Stochastic &  Ye
 \end{table*}
 
 \begin{figure}
- \centering
- \includegraphics[width=.8\linewidth]{variance_area.drawio.png}
- \caption{Feature space (VAR and Area) shows that the two classes are well separated. The dashed line shows the decision boundary separating the two classes. The label of one of the time series is ambiguous.}
- \label{fig:variance_area_fs}
+\centering
+\includegraphics[width=.8\linewidth]{variance_area.drawio.png}
+\caption{Feature space (VAR and Area) shows that the two classes are well separated. The dashed line shows the decision boundary separating the two classes. The label of one of the time series is ambiguous.}
+\label{fig:variance_area_fs}
 \end{figure}
 We observe that SVD based analysis results in classification  are consistent with CI based results for all the 12 classes of time series. However, with PCA based approach the inference for  $\delta$ time series is not consistent with the other two approaches. We observe that the PCA based features, VAR and Area, result in visible clustering as shown in Figure \ref{fig:variance_area_fs}. This could be attributed to the fact that   these features take into account the entire span of time series and hence form robust feature space. According to the CI based analysis $\delta$ turns out to be in between states slim disc  and GAAF \cite{Adegoke2018}. However, the present analysis shows that $\delta$ falls in between ADAF and Keplerian disc.
 
