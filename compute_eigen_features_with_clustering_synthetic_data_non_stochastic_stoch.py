@@ -29,16 +29,6 @@ from sklearn.cluster import KMeans
 # args = parser.parse_args()
 # print(args)
 
-# file_names = ["Delta", "Sac_ascf_theta", "Sac_ascf_beta", "Sac_ascf_kai", "Lorenz", "Lordata", "Sac_ascf_lambda", "Kappa", "Sac_ascf_phi", "Sac_ascf_gamma", "Sac_Ascf_Alpha", "Sac_ascf_mu", "Sac_ascf_nu", "Sac_ascf_rho"]
-
-# file_names = [f"beta_{beta}.000000_random_state_0",
-#               f"beta_{beta}.000000_random_state_1",
-#               f"beta_{beta}.000000_random_state_2",
-#               f"beta_{beta}.000000_random_state_3",
-#               f"beta_{beta}.000000_random_state_4",
-#               f"beta_{beta}.000000_random_state_5"
-#               ]
-
 # file_name = f"compare_lorenz_with_linear_map"
 
 file_name = f"non_stochastic_linear_map_stoch"
@@ -46,8 +36,8 @@ M = 10
 tau = 20
 shuffle = False
 
-svd_results_folder = f"svdresults_synthetic_data"
-pca_results_folder = f"pca_results_synthetic_data"
+svd_results_folder = f"svdresults_synthetic_data_wn_log_map_27July"
+pca_results_folder = f"pca_results_synthetic_data_wn_log_map_27_july"
 
 graphs_folder = f"{pca_results_folder}/graphs/"
 
@@ -66,37 +56,44 @@ else:
     files = os.listdir(file_name)
 
 min_eigen_values = list(range(5, 11))
-
-# min_eigen_values = [10]
+min_eigen_values = [7]
 """
 Read Data
 """
 
-LABEL_NON_STOCHASTIC = "NON-STOCHASTIC"
-LABEL_STOCHASTIC = "STOCHASTIC"
-ground_truths =[]
-data_dict = {}
-max_value_dict = {}
-for file in files:
-    print(file)
-    if file.startswith("l") or file.startswith("a") or file.startswith("x") :
-        ground_truths.append(LABEL_NON_STOCHASTIC)
-    else:
-        ground_truths.append(LABEL_STOCHASTIC)
-    with open(file_name + "/" + file, "r") as fp:
-        text = fp.readlines()
-    ts = np.asarray([float(d) for d in text])
-    if shuffle:
-        np.random.shuffle(ts)
-    data_dict[file] = ts
-    max_value = len(data_dict[file])
-    max_value_dict[file] = max_value
-    print(f"Number of samples in {file} {max_value}")
+
+def read_data():
+    global LABEL_NON_STOCHASTIC, LABEL_STOCHASTIC
+    LABEL_NON_STOCHASTIC = "NON-STOCHASTIC"
+    LABEL_STOCHASTIC = "STOCHASTIC"
+    ground_truths = []
+    data_dict = {}
+    max_value_dict = {}
+    for file in files:
+        print(file)
+        if file.startswith("l") or file.startswith("a") or file.startswith("x"):
+            ground_truths.append(LABEL_NON_STOCHASTIC)
+        else:
+            ground_truths.append(LABEL_STOCHASTIC)
+
+        with open(file_name + "/" + file, "r") as fp:
+            text = fp.readlines()
+
+        ts = np.asarray([float(d) for d in text])
+        if shuffle:
+            np.random.shuffle(ts)
+        data_dict[file] = ts
+        max_value = len(data_dict[file])
+        max_value_dict[file] = max_value
+        print(f"Number of samples in {file} {max_value}")
+    return data_dict, ground_truths
+
+
+data_dict, ground_truths = read_data()
 
 """
 Create the GT map
 """
-
 gt_dictionary = {file_name.rsplit(".", 1)[0]:ground_truth for file_name, ground_truth in zip(files, ground_truths) }
 # min_eigen_values = [2]
 values = defaultdict(list)
@@ -165,7 +162,7 @@ for min_eigen_threshold_value in min_eigen_values:
         values["Min Eigen Threshold Value"].append(min_eigen_threshold_value)
 
 #       eig = compute_pca_on_embedded_vecors(data_dict[file_name], M, tau)
- #      values["Eigen Ratio on Embedded Vectors"].append(eig[0] / eig[-1])
+#      values["Eigen Ratio on Embedded Vectors"].append(eig[0] / eig[-1])
 
     # Perform k-means clustering
     data = np.zeros([len(list(data_dict.keys())), 2])
@@ -198,8 +195,8 @@ df.to_csv(f"{pca_results_folder}/threshold_vs_silhoutte_score.csv", index=False)
 plt.figure()
 plt.plot(scores["Threshold"], scores["K means silhouette score"])
 plt.xlabel("Eigen Ratio threshold")
-plt.ylabel("K means silhouette score")
-plt.savefig(f"{pca_results_folder}/threshold_vs_silhoutte_score.jpg")
+plt.ylabel("Silhouette score")
+plt.savefig(f"{pca_results_folder}/threshold_vs_silhoutte_score.jpg", bbox_inches="tight")
 
 """SVD computation"""
 for file_name in data_dict.keys():
@@ -209,4 +206,5 @@ for file_name in data_dict.keys():
     plt.plot(v_mat[0], v_mat[1])
     plt.xlabel("E1")
     plt.ylabel("E2")
-    plt.savefig(f"{svd_results_folder}/{file_name}_e1_vs_e2_m_{M}_tau_{tau}.jpg")
+    plt.savefig(f"{svd_results_folder}/{file_name}_e1_vs_e2_m_{M}_tau_{tau}.jpg",
+                bbox_inches="tight")

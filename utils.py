@@ -7,7 +7,7 @@ import statistics
 MIN_INTERVAL_SIZE = 100 # The smallest interval considered. If length of the interval is  <= 100, it is not splitted further
 MAX_ITER = 50000 # Maximum number of iterations for splitting
 MIN_EIGEN_VALUE = 10
-MAX_NUM_SAMPLES_TO_TAKE = 5000
+MAX_NUM_SAMPLES_TO_TAKE = 1000
 
 def split_series(series):
     """
@@ -63,11 +63,11 @@ def process_time_series_all(s, min_eig_value=MIN_EIGEN_VALUE):
             num_splits += 1
 
     while len(splits_to_process) > 0 and num_iter < MAX_ITER:
-        print("Length of split to proecess",len(splits_to_process))
+#        print("Length of split to proecess",len(splits_to_process))
         interval = splits_to_process.pop()
         eig_ratio = split_series(s[interval[0]:interval[1]])
         #        if eig_ratio > min_eig_value:
-        print(eig_ratio, interval)
+ #       print(eig_ratio, interval)
         results.append((eig_ratio, interval))
         if interval[1] - interval[0] > MIN_INTERVAL_SIZE:
             mid = (interval[1] + interval[0]) // 2
@@ -170,18 +170,18 @@ def print_results(data_name, results, max_value, num_splits):
 
 
 def compute_svd(data, M, tau, max_num_samples_to_take = MAX_NUM_SAMPLES_TO_TAKE):
-    num_samples_to_take = min(data.shape[0] - M * tau, max_num_samples_to_take)
+    shifted_for_svd = create_image_data(M, data, max_num_samples_to_take, tau)
+    svd = np.linalg.svd(shifted_for_svd)
+    return svd
 
+
+def create_image_data( data, M,  tau,max_num_samples_to_take= MAX_NUM_SAMPLES_TO_TAKE):
+    num_samples_to_take = min(data.shape[0] - M * tau, max_num_samples_to_take)
     shifted_for_svd = np.zeros((M, num_samples_to_take))
     for i in range(M):
         shifted_for_svd[i] = data[i * tau:][0:num_samples_to_take]
     shifted_for_svd = np.asarray(shifted_for_svd)
-
-    #     print(shifted_for_svd.shape)
-
-    #     print(len(shifted_for_svd[0]))
-    svd = np.linalg.svd(shifted_for_svd)
-    return svd
+    return shifted_for_svd
 
 
 def compute_pca_on_embedded_vecors(data, M, tau, max_num_samples_to_take=MAX_NUM_SAMPLES_TO_TAKE):
